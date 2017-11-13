@@ -1,0 +1,3 @@
+{
+  "dbUri": "mongodb://test:test@ds115870.mlab.com:15870/bears"
+}
