@@ -12,6 +12,9 @@ class Dashboard extends Component {
         this.state = {
             isLoggedIn: false
         }
+
+        this.logOut = this.logOut.bind(this);
+
     }
 
     componentDidMount() {
@@ -27,6 +30,12 @@ class Dashboard extends Component {
         })
     }
 
+    logOut() {
+        axios.get('/api/logout').then( (res) => {
+            console.log("Logged out");
+        })
+    }
+
     render() {
 
         if (this.state.isLoggedIn) {
@@ -35,6 +44,10 @@ class Dashboard extends Component {
                     <Card>
                         <h1>Welcome to the App!</h1>
                         <p>You are now logged in.</p>
+
+                        <Link to="/" onClick={this.logOut}>
+                            Log out
+                        </Link>
                     </Card>
                 </div>
             )
@@ -43,6 +56,9 @@ class Dashboard extends Component {
                 <div className="Dashboard">
                     <Card>
                         <h1>You must log in before you can see this page.</h1>
+                        <Link to="/">
+                            Back
+                        </Link>
                     </Card>
                 </div>
             )

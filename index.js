@@ -6,6 +6,8 @@ const passport = require('passport')
 const config = require('./config');
 const User = require('./')
 const router = express.Router();
+const cookieSession = require('cookie-session');
+const cookieParser = require('cookie-parser');
 
 app.use(express.static('./backend/static/'));
 app.use(express.static('./frontend/dist/'));
@@ -31,16 +33,21 @@ app.route('/dashboard').get(function(req,res) {
 })
 
 /* New things ================================================================ */
-const cookieParser = require('cookie-parser');
-app.use(cookieParser());
 
 require('./backend/models').connect(config.dbUri);
+require('./backend/auth/passport')(passport);
+
+// Initialize cookie sessions
+app.use(cookieParser());
+app.use(cookieSession({
+  keys: ['asdf', 'asdf']
+}));
 
 // Initialize Passport
 app.use(passport.initialize()); // Create an instance of Passport
 app.use(passport.session());
 
-require('./backend/auth/passport')(passport);
+// Get our routes
 app.use('/api', require('./backend/routes/api')(router, passport));
 
 /* =========================================================================== */
