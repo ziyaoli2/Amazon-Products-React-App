@@ -4,6 +4,12 @@ This basic implementation of adding Passport to an existing project was used as 
 
 ## Getting started
 
-First, `npm install`. Then make sure you have two terminals open; in one, type `npm start` to run the backend, and in the other, type `npm run dev` to run the frontend. 
+First, `npm install`.
 
-Make sure you put your own database URI into `config/index.json`.
+cd to node_module and type "sudo npm install cookie-session"
+
+Then make sure you have two terminals open; in one, type `npm start` to run the backend, and in the other, type `npm run dev` to run the frontend. 
+
+
+
+
