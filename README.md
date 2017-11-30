@@ -6,7 +6,7 @@ This basic implementation of adding Passport to an existing project was used as 
 
 First, `npm install`.
 
-cd to node_module and type "sudo npm install cookie-session"
+cd to node_modules and type "sudo npm install cookie-session"
 
 Then make sure you have two terminals open; in one, type `npm start` to run the backend, and in the other, type `npm run dev` to run the frontend. 
 
