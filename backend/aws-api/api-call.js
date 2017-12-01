@@ -10,7 +10,6 @@ RESTobj.Query({
   if(err){
     console.log(err);
   }else{
-    console.log('abc');
     console.log(results[0]['Item']);
   }
 });
