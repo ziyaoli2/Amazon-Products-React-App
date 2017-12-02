@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button, Input, Card } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { withRouter } from 'react-router'
 
 import styles from './styles.scss'
 
@@ -44,6 +45,7 @@ class Register extends Component {
                 this.setState({
                     message: 'Registered!'
                 })
+                this.props.history.push('/dashboard');
             } else {
                 this.setState({
                     message: 'Unable to register'
@@ -83,7 +85,7 @@ class Register extends Component {
                         <Input type="submit" />
                         <h4>Already registered? Click <Link to="/login">here</Link> to Log-in!</h4>
 
-                        <Link to="/dashboard"><p>Go to Dashboard</p></Link>
+
                     </div>
                 </Card>
             </form>
