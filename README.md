@@ -10,6 +10,12 @@ cd to node_modules and type "sudo npm install cookie-session"
 
 Then make sure you have two terminals open; in one, type `npm start` to run the backend, and in the other, type `npm run dev` to run the frontend. 
 
+Then go to `http://localhost:3000/` to start using the app
 
+Database:     mlab.com
+Accountname:498fp
+Email:richarlzyao@163.com
+Username:498fp
+Password:Abc20192019
 
 

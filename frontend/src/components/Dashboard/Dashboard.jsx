@@ -55,7 +55,7 @@ class Dashboard extends Component {
             return(
                 <div className="Dashboard">
                     <Card>
-                        <h1>You must log in before you can see this page.</h1>
+                        <h1>The email or password is incorrect</h1>
                         <Link to="/">
                             Back
                         </Link>
