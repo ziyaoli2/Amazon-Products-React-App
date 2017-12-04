@@ -12,4 +12,10 @@ Then make sure you have two terminals open; in one, type `npm start` to run the 
 
 
 
+Database:     mlab.com
+Accountname:498fp
+Email:richarlzyao@163.com
+Username:498fp
+Password:Abc20192019
+
 
