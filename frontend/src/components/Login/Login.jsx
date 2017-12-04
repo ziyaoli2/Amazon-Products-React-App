@@ -46,9 +46,9 @@ class Login extends Component {
                 this.props.history.push('/dashboard');
             } else {
                 this.setState({
-                    message: 'Unable to log in'
+                    message: 'The email or password is incorrect'
                 })
-                this.props.history.push('/dashboard');
+                
             }
         });
         xhr.send(formData);
