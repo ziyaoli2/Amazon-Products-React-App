@@ -1,5 +1,5 @@
-findTopSellers = require('./index.js').findTopSellers;
-findSimilarItems = require('./index.js').findSimilarItems;
+findTopSellers = require('./aws-api/api-call.js').findTopSellers;
+findSimilarItems = require('./aws-api/api-call.js').findSimilarItems;
 
 class TreeNode {
   constructor(parent, itemId) {
