@@ -3,8 +3,6 @@ import { Button, Input, Card } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
 
-
-
 import styles from './styles.scss'
 
 class Login extends Component {
@@ -46,14 +44,12 @@ class Login extends Component {
                 this.props.history.push('/dashboard');
             } else {
                 this.setState({
-                    message: 'The email or password is incorrect'
+                    message: 'Unable to log in'
                 })
-                
+                this.props.history.push('/dashboard');
             }
         });
         xhr.send(formData);
-
-
     }
 
     onChangeEmail(e) {
@@ -85,12 +81,9 @@ class Login extends Component {
 
                     <p>{this.state.message}</p>
 
-
                     <Input type="submit" />
 
-
                     <h4>No account yet? Click <Link to="/register">here</Link> to Register!</h4>
-
 
                 </div>
             </Card>

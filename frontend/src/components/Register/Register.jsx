@@ -48,7 +48,7 @@ class Register extends Component {
                 this.props.history.push('/dashboard');
             } else {
                 this.setState({
-                    message: 'The email you have entered is already registered'
+                    message: 'Unable to register'
                 })
             }
         });
