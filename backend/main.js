@@ -98,10 +98,18 @@ class GetItem {
   }
 
   getNextItem(selection, callback) {
+    //After Logged In
+    /*
+    if(this.root.children.length == 0) {
+      this.setNewRoot(()=>{
+        this.getNextItem(selection);
+      });
+    } else {
+    */
     //dislike
     if(selection == 0) {
       this.numOfDislikes += 1;
-      if(this.numOfDislikes == 3) {
+      if(this.numOfDislikes == 4) {
         this.setNewRoot(callback);
       } else {
         this.selectAfterDislike(callback);
@@ -119,9 +127,10 @@ class GetItem {
     //wishlist
     if(selection == 2) {
       this.addToWishlist();
-      this.setNewRoot();
+      this.setNewRoot(callback);
       this.numOfDislikes = 0;
     }
+
   }
 }
 
