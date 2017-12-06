@@ -10,7 +10,7 @@ class Dashboard extends Component {
     constructor() {
         super();
         this.state = {
-            isLoggedIn: false
+            isLoggedIn: true
         }
 
         this.logOut = this.logOut.bind(this);
