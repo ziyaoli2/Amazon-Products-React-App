@@ -1,5 +1,6 @@
 findTopSellers = require('./aws-api/api-call.js').findTopSellers;
 findSimilarItems = require('./aws-api/api-call.js').findSimilarItems;
+itemLookup = require('./aws-api/api-call.js').itemLookup;
 
 class TreeNode {
   constructor(parent, itemId) {
@@ -37,14 +38,19 @@ const listOfCategories = [2350149011, 2617941011, 15684181, 165796011, 3760911, 
 502394, 10963061, 2335753011, 468642, 541966, 16310211, 3760901,
 16310161,3367581,133140011,284507,599858,2625373011,2334092011,5174,11091801,1064954,2619533011,672123011,229534,228013,165793011];
 
-//const listOfCategories = ['2350149011'];
 class GetItem {
-  constructor(){
+  // pass the last category index of the user
+  constructor(lastCategoryIndex){
     this.root = new TreeNode(null, '');
     this.curr = new TreeNode(null, '');
     this.numOfDislikes = 0;
-    this.categoryIndex = 0;
+    this.categoryIndex = lastCategoryIndex;
     this.similarIndex = 0;
+  }
+
+  storeLastCategoryIndex() {
+    // to store user's last category index
+    console.log('store category index');
   }
 
   getFirstItem(callback) {
@@ -53,7 +59,6 @@ class GetItem {
 
   selectAfterDislike(callback) {
     //get parent's next child.
-    console.log('afterdislike');
     if(this.curr.parent !== null) {
       let parent = this.curr.parent;
       this.curr = parent.children[this.numOfDislikes];
@@ -68,7 +73,7 @@ class GetItem {
         let newTree = new TreeNode(this.root, similarItems[i]);
         arrayOfTrees.push(newTree);
       }
-      console.log('similar items = ', similarItems);
+      //console.log('similar items = ', similarItems);
       this.curr.children = arrayOfTrees;
       this.curr.parent = this.curr;
       this.curr = this.curr.children[this.similarIndex];
@@ -77,14 +82,13 @@ class GetItem {
   }
 
   setNewRoot(callback) {
-    console.log('abc');
     findTopSellers(listOfCategories[this.categoryIndex].toString(),(topSellers) => {
       let arrayOfTrees = [];
       for(let i = 0; i < topSellers.length; i++) {
         let newTree = new TreeNode(this.root, topSellers[i]);
         arrayOfTrees.push(newTree);
       }
-      console.log('top sellers = ', topSellers);
+      //console.log('top sellers = ', topSellers);
       this.categoryIndex += 1;
       this.root.children = arrayOfTrees;
       this.curr = this.root.children[0];
@@ -94,18 +98,11 @@ class GetItem {
   }
 
   addToWishlist() {
-    console.log('add to wishlist');
+    console.log('store to wishlist');
+    //storeWishList(this.curr.itemId);
   }
 
   getNextItem(selection, callback) {
-    //After Logged In
-    /*
-    if(this.root.children.length == 0) {
-      this.setNewRoot(()=>{
-        this.getNextItem(selection);
-      });
-    } else {
-    */
     //dislike
     if(selection == 0) {
       this.numOfDislikes += 1;
@@ -130,8 +127,106 @@ class GetItem {
       this.setNewRoot(callback);
       this.numOfDislikes = 0;
     }
+    //not on aws api
+    if(selection == 3) {
+      this.generateSubtree(callback);
+      this.similarIndex += 1;
+      if(this.similarIndex == 10) {
+        this.similarIndex = 0;
+      }
+    }
 
   }
 }
 
-module.exports = GetItem;
+const firstItem = (itemGetter, callback) => {
+  itemGetter.getFirstItem((result) => {
+    itemLookup(result,
+      (lookupResult => {
+        callback(lookupResult);
+      })
+    ,
+      () => {
+        errorItem(itemGetter, callback);
+      }
+    );
+  });
+}
+
+const dislikeItem = (itemGetter, callback) => {
+  itemGetter.getNextItem(0, (result)=> {
+    itemLookup(result,
+      (lookupResult => {
+        callback(lookupResult);
+      })
+    ,
+      () => {
+        errorItem(itemGetter, callback);
+      }
+    );
+  });
+}
+
+const likeItem = (itemGetter, callback) => {
+  itemGetter.getNextItem(1, (result)=> {
+    itemLookup(result,
+      (lookupResult => {
+        callback(lookupResult);
+      })
+    ,
+      () => {
+        errorItem(itemGetter, callback);
+      }
+    );
+  });
+}
+
+const wishListItem = (itemGetter, callback) => {
+  itemGetter.getNextItem(2, (result)=> {
+    itemLookup(result,
+      (lookupResult => {
+        callback(lookupResult);
+      })
+    ,
+      () => {
+        errorItem(itemGetter, callback);
+      }
+    );
+  });
+}
+
+const errorItem = (itemGetter, callback) => {
+  itemGetter.getNextItem(3, (result)=> {
+    itemLookup(result,
+      (lookupResult => {
+        callback(lookupResult);
+      })
+    ,
+      () => {
+        errorItem(itemGetter, callback);
+      }
+    );
+  });
+}
+
+module.exports = {
+  GetItem,
+  firstItem,
+  likeItem,
+  dislikeItem,
+  wishListItem,
+}
+
+/**
+  example:
+  itemGetter = new GetItem(0);
+  firstItem(itemGetter, (result) => {
+    console.log('first = ',result);
+  });
+
+  setTimeout(() => {
+    likeItem(itemGetter, (result) => {
+      console.log('like = ', result);
+    })
+  } , 1000);
+**/
