@@ -36,7 +36,7 @@ app.route('/dashboard').get(function(req,res) {
 
 require('./backend/models').connect(config.dbUri);
 require('./backend/auth/passport')(passport);
-
+app.use('/api/DB', require('./backend/API.js'));  /////
 // Initialize cookie sessions
 app.use(cookieParser());
 app.use(cookieSession({
