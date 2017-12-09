@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import { Button, Card } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import { GetItem } from '../../../../backend/main.js'
 import axios from 'axios'
 
 import styles from './styles.scss'
