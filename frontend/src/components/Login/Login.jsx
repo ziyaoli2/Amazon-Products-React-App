@@ -54,7 +54,7 @@ this.props.history.push({
 
             } else {
                 this.setState({
-                    message: 'Unable to log in'
+                    message: 'Email or password is incorrect'
                 })
                // this.props.history.push('/dashboard');
             }
