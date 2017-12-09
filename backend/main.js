@@ -63,7 +63,7 @@ class GetItem {
   }
 
   generateSubtree(callback) {
-    axios.get('http://localhost:4000/findSimilarItems/'+this.curr.itemId).then((response) => {
+    axios.get('/findSimilarItems/'+this.curr.itemId).then((response) => {
       const similarItems = response.data;
       let arrayOfTrees = [];
       for(let i = 0; i < similarItems.length; i++) {
@@ -95,7 +95,7 @@ class GetItem {
   }
 
   setNewRoot(callback) {
-    axios.get('http://localhost:4000/findTopSellers/'+listOfCategories[this.categoryIndex].toString()).then((response) => {
+    axios.get('/findTopSellers/'+listOfCategories[this.categoryIndex].toString()).then((response) => {
       const topSellers = response.data;
       let arrayOfTrees = [];
       for(let i = 0; i < topSellers.length; i++) {
@@ -170,7 +170,7 @@ class GetItem {
 
 const firstItem = (itemGetter, callback) => {
   itemGetter.getFirstItem((result) => {
-    axios.get('http://localhost:4000/itemLookup/'+result).then((lookupResult) => {
+    axios.get('/itemLookup/'+result).then((lookupResult) => {
       callback(lookupResult.data);
     });
     /*
@@ -189,7 +189,7 @@ const firstItem = (itemGetter, callback) => {
 
 const dislikeItem = (itemGetter, callback) => {
   itemGetter.getNextItem(0, (result)=> {
-    axios.get('http://localhost:4000/itemLookup/'+result).then((lookupResult) => {
+    axios.get('/itemLookup/'+result).then((lookupResult) => {
       callback(lookupResult.data);
     });
     /*
@@ -208,7 +208,7 @@ const dislikeItem = (itemGetter, callback) => {
 
 const likeItem = (itemGetter, callback) => {
   itemGetter.getNextItem(1, (result)=> {
-    axios.get('http://localhost:4000/itemLookup/'+result).then((lookupResult) => {
+    axios.get('/itemLookup/'+result).then((lookupResult) => {
       callback(lookupResult.data);
     });
     /*
@@ -227,7 +227,7 @@ const likeItem = (itemGetter, callback) => {
 
 const wishListItem = (itemGetter, callback) => {
   itemGetter.getNextItem(2, (result)=> {
-    axios.get('http://localhost:4000/itemLookup/'+result).then((lookupResult) => {
+    axios.get('/itemLookup/'+result).then((lookupResult) => {
       callback(lookupResult.data);
     });
     /*
@@ -246,7 +246,7 @@ const wishListItem = (itemGetter, callback) => {
 
 const errorItem = (itemGetter, callback) => {
   itemGetter.getNextItem(3, (result)=> {
-    axios.get('http://localhost:4000/itemLookup/'+result).then((lookupResult) => {
+    axios.get('/itemLookup/'+result).then((lookupResult) => {
       callback(lookupResult.data);
     });
     /*

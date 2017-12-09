@@ -3,8 +3,6 @@ router = express.Router(),
 U = require('./models/user');
 
 
-
-
 router.post('/:email/:id', (req, res)=>{
         U.findOneAndUpdate(
             {email : req.params.email},               //should be req.email in the future

@@ -1,5 +1,5 @@
-similarItems = require('aws-product-api');
-browseTopSellers = require('amazon-product-api');
+const similarItems = require('aws-product-api');
+const browseTopSellers = require('amazon-product-api');
 
 const awsId = 'AKIAIL6MEBROY6QG653Q';
 const awsSecretKey = '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';

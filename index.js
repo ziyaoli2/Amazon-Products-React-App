@@ -8,6 +8,9 @@ const User = require('./')
 const router = express.Router();
 const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
+const findTopSellers = require('./backend/aws-api/api-call.js').findTopSellers;
+const findSimilarItems = require('./backend/aws-api/api-call.js').findSimilarItems;
+const itemLookup = require('./backend/aws-api/api-call.js').itemLookup;
 
 app.use(express.static('./backend/static/'));
 app.use(express.static('./frontend/dist/'));
@@ -17,6 +20,16 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(bodyParser.json());
+
+let allowCrossDomain = function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+    next();
+};
+app.use(allowCrossDomain);
+
+
 
 // Static routes
 app.route('/').get(function(req, res) {
@@ -49,6 +62,24 @@ app.use(passport.session());
 
 // Get our routes
 app.use('/api', require('./backend/routes/api')(router, passport));
+app.get('/findTopSellers/:categoryId', (req,res) => {
+  findTopSellers(req.params.categoryId.toString(),(topSellers) => {
+    res.send(topSellers);
+  })
+});
+
+app.get('/findSimilarItems/:itemId', (req,res) => {
+  findSimilarItems(req.params.itemId.toString(),(similarItems) => {
+    res.send(similarItems);
+  })
+});
+
+app.get('/itemLookup/:itemId', (req,res) => {
+  itemLookup(req.params.itemId.toString(),(item) => {
+    res.send(item);
+  })
+});
+
 
 /* =========================================================================== */
 
