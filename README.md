@@ -19,3 +19,15 @@ Username:498fp
 Password:Abc20192019
 
 
+## DB
+
+GET http://localhost:3000/api/DB/abc    will return wishList and lastCategoryIndex..   "abc" is the email
+
+POST http://localhost:3000/api/DB/abc/12  will post the id to wishList .  "abc" is the email and "12" is the id to push.
+
+DELETE http://localhost:3000/api/DB/abc/12 .  delete the id from wishList . "abc" is email, "12" is the id to delete
+
+
+
+
+

@@ -1,3 +1,4 @@
+const axios = require('axios');
 findTopSellers = require('./aws-api/api-call.js').findTopSellers;
 findSimilarItems = require('./aws-api/api-call.js').findSimilarItems;
 itemLookup = require('./aws-api/api-call.js').itemLookup;
@@ -48,8 +49,14 @@ class GetItem {
     this.similarIndex = 0;
   }
 
-  storeLastCategoryIndex() {
+  storeLastCategoryIndex(email) {
     // to store user's last category index
+    var url = "http://localhost:3000/api/DB/" + String(email) + String(this.categoryIndex);
+    console.log();
+    axios
+          .put(url)
+          .then(response => {
+          });
     console.log('store category index');
   }
 
@@ -97,9 +104,14 @@ class GetItem {
     });
   }
 
-  addToWishlist() {
+ addToWishlist(email, id) {
     console.log('store to wishlist');
     //storeWishList(this.curr.itemId);
+    var url = "http://localhost:3000/api/DB/" + String(email) + String(id);
+    axios
+              .post(url)
+              .then(response => {
+              });
   }
 
   getNextItem(selection, callback) {
