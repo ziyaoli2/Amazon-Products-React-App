@@ -41,12 +41,22 @@ class Login extends Component {
                 this.setState({
                     message: 'Successfully logged in!'
                 })
-                this.props.history.push('/dashboard');
+                //this.props.history.push('/dashboard');
+
+
+
+
+this.props.history.push({
+                pathname: '/dashboard',
+                state: { email: email },
+                });
+
+
             } else {
                 this.setState({
                     message: 'Unable to log in'
                 })
-                this.props.history.push('/dashboard');
+               // this.props.history.push('/dashboard');
             }
         });
         xhr.send(formData);
