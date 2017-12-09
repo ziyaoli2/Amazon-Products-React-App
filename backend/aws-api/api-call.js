@@ -49,6 +49,7 @@ const findTopSellers = (categoryId,callback) => {
 const itemLookup = (itemId, successCallback, errorCallback) => {
   topSellersItemIdClient.itemLookup({
     itemId: itemId,
+    responseGroup: 'ItemAttributes, Images',
   }).then((results) => {
     successCallback(results)
   }).catch(function(err) {

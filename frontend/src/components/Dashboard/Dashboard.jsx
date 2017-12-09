@@ -3,8 +3,9 @@
 import React, { Component } from 'react'
 import { Button, Card } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import { GetItem } from '../../../../backend/main.js'
+import { GetItem, firstItem, likeItem, dislikeItem, wishListItem } from '../../../../backend/main.js'
 import axios from 'axios'
+import awsProductApi  from 'aws-product-api';
 
 import styles from './styles.scss'
 import Carousel from 'nuka-carousel'
@@ -15,13 +16,30 @@ class Dashboard extends Component {
     constructor() {
         super();
         this.state = {
-            isLoggedIn: true
+            isLoggedIn: true,
+            itemGetter: {},
         }
 
         this.logOut = this.logOut.bind(this);
         this.like = this.like.bind(this);
         this.dislike = this.dislike.bind(this);
         this.addToWishlist = this.addToWishlist.bind(this);
+        this.getFirstItem = this.getFirstItem.bind(this);
+    }
+
+    getFirstItem() {
+      firstItem(this.state.itemGetter, (result) => {
+        console.log(result);
+      })
+    }
+
+    componentWillMount() {
+      
+      let newItemGetter = new GetItem(0);
+      firstItem(newItemGetter, (result) => {
+        console.log('first = ',result);
+      });
+
     }
 
     componentDidMount() {
@@ -35,6 +53,9 @@ class Dashboard extends Component {
                 isLoggedIn: false
             })
         })
+        let itemGetter = new GetItem(0);
+        this.setState({itemGetter});
+        console.log(this.state);
     }
 
     logOut() {
@@ -56,6 +77,7 @@ class Dashboard extends Component {
     render() {
 
         if (this.state.isLoggedIn) {
+            //this.getFirstItem();
             return(
                 <div className="Dashboard">
                     <Card>
