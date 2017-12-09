@@ -5,7 +5,6 @@ import { Button, Card } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { GetItem, firstItem, likeItem, dislikeItem, wishListItem } from '../../../../backend/main.js'
 import axios from 'axios'
-import awsProductApi  from 'aws-product-api';
 
 import styles from './styles.scss'
 import Carousel from 'nuka-carousel'
@@ -34,12 +33,10 @@ class Dashboard extends Component {
     }
 
     componentWillMount() {
-      
       let newItemGetter = new GetItem(0);
       firstItem(newItemGetter, (result) => {
         console.log('first = ',result);
       });
-
     }
 
     componentDidMount() {

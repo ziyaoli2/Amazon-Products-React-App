@@ -1,7 +1,4 @@
-const axios = require('axios');
-findTopSellers = require('./aws-api/api-call.js').findTopSellers;
-findSimilarItems = require('./aws-api/api-call.js').findSimilarItems;
-itemLookup = require('./aws-api/api-call.js').itemLookup;
+axios = require('axios');
 
 class TreeNode {
   constructor(parent, itemId) {
@@ -40,7 +37,6 @@ const listOfCategories = [2350149011, 2617941011, 15684181, 165796011, 3760911, 
 16310161,3367581,133140011,284507,599858,2625373011,2334092011,5174,11091801,1064954,2619533011,672123011,229534,228013,165793011];
 
 class GetItem {
-  // pass the last category index of the user
   constructor(lastCategoryIndex){
     this.root = new TreeNode(null, '');
     this.curr = new TreeNode(null, '');
@@ -49,14 +45,7 @@ class GetItem {
     this.similarIndex = 0;
   }
 
-  storeLastCategoryIndex(email) {
-    // to store user's last category index
-    var url = "http://localhost:3000/api/DB/" + String(email) + String(this.categoryIndex);
-    console.log();
-    axios
-          .put(url)
-          .then(response => {
-          });
+  storeLastCategoryIndex() {
     console.log('store category index');
   }
 
@@ -74,7 +63,8 @@ class GetItem {
   }
 
   generateSubtree(callback) {
-    let similarItems = findSimilarItems(this.curr.itemId, (similarItems) => {
+    axios.get('http://localhost:4000/findSimilarItems/'+this.curr.itemId).then((response) => {
+      const similarItems = response.data;
       let arrayOfTrees = [];
       for(let i = 0; i < similarItems.length; i++) {
         let newTree = new TreeNode(this.root, similarItems[i]);
@@ -85,10 +75,41 @@ class GetItem {
       this.curr.parent = this.curr;
       this.curr = this.curr.children[this.similarIndex];
       callback(this.curr.itemId);
+    }).catch((error) => {
+      console.log(error);
     });
+    /*
+    findSimilarItems(this.curr.itemId, (similarItems) => {
+      let arrayOfTrees = [];
+      for(let i = 0; i < similarItems.length; i++) {
+        let newTree = new TreeNode(this.root, similarItems[i]);
+        arrayOfTrees.push(newTree);
+      }
+      //console.log('similar items = ', similarItems);
+      this.curr.children = arrayOfTrees;
+      this.curr.parent = this.curr;
+      this.curr = this.curr.children[this.similarIndex];
+      callback(this.curr.itemId);
+    }
+    */
   }
 
   setNewRoot(callback) {
+    axios.get('http://localhost:4000/findTopSellers/'+listOfCategories[this.categoryIndex].toString()).then((response) => {
+      const topSellers = response.data;
+      let arrayOfTrees = [];
+      for(let i = 0; i < topSellers.length; i++) {
+        let newTree = new TreeNode(this.root, topSellers[i]);
+        arrayOfTrees.push(newTree);
+      }
+      //console.log('top sellers = ', topSellers);
+      this.categoryIndex += 1;
+      this.root.children = arrayOfTrees;
+      this.curr = this.root.children[0];
+      this.curr.parent = this.root;
+      callback(this.curr.itemId);
+    })
+    /*
     findTopSellers(listOfCategories[this.categoryIndex].toString(),(topSellers) => {
       let arrayOfTrees = [];
       for(let i = 0; i < topSellers.length; i++) {
@@ -102,16 +123,12 @@ class GetItem {
       this.curr.parent = this.root;
       callback(this.curr.itemId);
     });
+    */
   }
 
- addToWishlist(email, id) {
+  addToWishlist() {
     console.log('store to wishlist');
     //storeWishList(this.curr.itemId);
-    var url = "http://localhost:3000/api/DB/" + String(email) + String(id);
-    axios
-              .post(url)
-              .then(response => {
-              });
   }
 
   getNextItem(selection, callback) {
@@ -153,6 +170,10 @@ class GetItem {
 
 const firstItem = (itemGetter, callback) => {
   itemGetter.getFirstItem((result) => {
+    axios.get('http://localhost:4000/itemLookup/'+result).then((lookupResult) => {
+      callback(lookupResult.data);
+    });
+    /*
     itemLookup(result,
       (lookupResult => {
         callback(lookupResult);
@@ -162,11 +183,16 @@ const firstItem = (itemGetter, callback) => {
         errorItem(itemGetter, callback);
       }
     );
+    */
   });
 }
 
 const dislikeItem = (itemGetter, callback) => {
   itemGetter.getNextItem(0, (result)=> {
+    axios.get('http://localhost:4000/itemLookup/'+result).then((lookupResult) => {
+      callback(lookupResult.data);
+    });
+    /*
     itemLookup(result,
       (lookupResult => {
         callback(lookupResult);
@@ -176,11 +202,16 @@ const dislikeItem = (itemGetter, callback) => {
         errorItem(itemGetter, callback);
       }
     );
+    */
   });
 }
 
 const likeItem = (itemGetter, callback) => {
   itemGetter.getNextItem(1, (result)=> {
+    axios.get('http://localhost:4000/itemLookup/'+result).then((lookupResult) => {
+      callback(lookupResult.data);
+    });
+    /*
     itemLookup(result,
       (lookupResult => {
         callback(lookupResult);
@@ -190,11 +221,16 @@ const likeItem = (itemGetter, callback) => {
         errorItem(itemGetter, callback);
       }
     );
+    */
   });
 }
 
 const wishListItem = (itemGetter, callback) => {
   itemGetter.getNextItem(2, (result)=> {
+    axios.get('http://localhost:4000/itemLookup/'+result).then((lookupResult) => {
+      callback(lookupResult.data);
+    });
+    /*
     itemLookup(result,
       (lookupResult => {
         callback(lookupResult);
@@ -204,11 +240,16 @@ const wishListItem = (itemGetter, callback) => {
         errorItem(itemGetter, callback);
       }
     );
+    */
   });
 }
 
 const errorItem = (itemGetter, callback) => {
   itemGetter.getNextItem(3, (result)=> {
+    axios.get('http://localhost:4000/itemLookup/'+result).then((lookupResult) => {
+      callback(lookupResult.data);
+    });
+    /*
     itemLookup(result,
       (lookupResult => {
         callback(lookupResult);
@@ -218,6 +259,7 @@ const errorItem = (itemGetter, callback) => {
         errorItem(itemGetter, callback);
       }
     );
+    */
   });
 }
 
