@@ -5,10 +5,10 @@ U = require('./models/user');
 
 
 
-router.post('/', (req, res)=>{
+router.post('/:email/:id', (req, res)=>{
         U.findOneAndUpdate(
-            {email : "abc"},               //should be req.email in the future
-            {$push : {wishList:"135"}}, {new: true},(err,doc)=>{}
+            {email : req.params.email},               //should be req.email in the future
+            {$push : {wishList:req.params.id}}, {new: true},(err,doc)=>{}
         )
         res.status(200).send({
                 message: 'ADD TO WISHLIST OOK',
@@ -17,10 +17,10 @@ router.post('/', (req, res)=>{
 
 
 
-router.get('/', (req, res)=>{
+router.get('/:email', (req, res)=>{
 
     U.findOne(
-        {email : "abc"}, (err, doc)=>{
+        {email : req.params.email}, (err, doc)=>{
             if (err) {
                 return res.status(500).send({
                                 message: "Error!" ,
@@ -39,10 +39,10 @@ router.get('/', (req, res)=>{
 
 
 
-router.delete('/:id', (req, res)=>{
+router.delete('/:email/:id', (req, res)=>{
     var res = [];
      U.findOne(
-        {email : "abc"}, (err, doc)=> {
+        {email : req.params.email}, (err, doc)=> {
             if (err) {
                 return res.status(500).send({
                                                 message: "Error!" ,
@@ -56,17 +56,19 @@ router.delete('/:id', (req, res)=>{
                     }
                 }
             }
-           // console.log(res);
-        }
-     );
-    var out = JSON.stringify(res);
+            console.log(res);
+
+    //let out = JSON.stringify(res);
 
     U.findOneAndUpdate(
-        {email : "abc"}, {$set: {wishList: out} }, {returnNewDocument: true }, (err,doc)=>{}
+        {email : req.params.email}, {$set: {wishList: res} }, {new: true }, (err,doc)=>{
+
+        }
     );
+        }
+     );
 
-
-
+    console.log(res);
 
 });
 
