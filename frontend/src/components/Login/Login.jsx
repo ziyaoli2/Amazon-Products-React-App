@@ -31,7 +31,7 @@ class Login extends Component {
         const password = encodeURIComponent(this.state.user.password);
         const formData = `email=${email}&password=${password}`;
 
-        // create an AJAX request (This should probably done with Axios instead) 
+        // create an AJAX request (This should probably done with Axios instead)
         const xhr = new XMLHttpRequest();
         xhr.open('post', '/api/login');
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -91,7 +91,7 @@ this.props.history.push({
 
                     <p>{this.state.message}</p>
 
-                    <Input type="submit" />
+                    <Input type="submit" value = "Submit"/>
 
                     <h4>No account yet? Click <Link to="/register">here</Link> to Register!</h4>
 

@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { Button, Card } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import { GetItem, firstItem, likeItem, dislikeItem, wishListItem } from '../../../../backend/main.js'
+import { GetItem, firstItem, likeItem, dislikeItem, wishListItem, storeLastCategoryIndex } from '../../../../backend/main.js'
 import axios from 'axios'
 
 import styles from './styles.scss'
@@ -23,6 +23,7 @@ class Dashboard extends Component {
         this.like = this.like.bind(this);
         this.dislike = this.dislike.bind(this);
         this.addToWishlist = this.addToWishlist.bind(this);
+        this.storeToWishlist = this.storeToWishlist.bind(this);
         this.getFirstItem = this.getFirstItem.bind(this);
     }
 
@@ -34,9 +35,13 @@ class Dashboard extends Component {
 
     componentWillMount() {
       let newItemGetter = new GetItem(0);
+      this.setState({
+        itemGetter: newItemGetter,
+      })
       firstItem(newItemGetter, (result) => {
         console.log('first = ',result);
       });
+      storeLastCategoryIndex('abc',0);
     }
 
     componentDidMount() {
@@ -53,6 +58,7 @@ class Dashboard extends Component {
         let itemGetter = new GetItem(0);
         this.setState({itemGetter});
         console.log(this.state);
+
     }
 
     logOut() {
@@ -67,7 +73,22 @@ class Dashboard extends Component {
     dislike(){
       console.log('dislike button clicked');
     }
+
+    storeToWishlist(email, id) {
+      console.log('store to wishlist');
+      //storeWishList(this.curr.itemId);
+      var url = "http://localhost:3000/api/DB/" + String(email) + '/' + String(id);
+      axios
+                .post(url)
+                .then(response => {
+
+                });
+
+    }
+
     addToWishlist(){
+      this.storeToWishlist('abc', 'bcd');
+      storeLastCategoryIndex('abc',0);
       console.log('addToWishlist button clicked');
     }
 
@@ -128,12 +149,12 @@ import axios from 'axios'
 import styles from './styles.scss'
 import Carousel from 'nuka-carousel'
 
- 
+
 import { GetItem, firstItem, likeItem, dislikeItem, wishListItem } from '../../../../backend/main.js'
 //get email in the props and call axios get to get the wishlist //
 
 class Dashboard extends Component {
-    
+
     constructor(props) {
         super(props);
         this.state = {
@@ -160,7 +181,7 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        
+
 
         axios.get('/api/profile').then( (res) => {
             console.log(res);

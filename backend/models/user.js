@@ -5,6 +5,7 @@ var userSchema = mongoose.Schema({
     email		: String,
     password	: String,
     wishList: [String],
+    lastCategoryIndex: Number,
 });
 
 userSchema.methods.generateHash = function(password) {

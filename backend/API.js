@@ -70,5 +70,15 @@ router.delete('/:email/:id', (req, res)=>{
 
 });
 
+router.put('/:email/:id', (req, res)=>{
+        U.findOneAndUpdate(
+            {email : req.params.email},               //should be req.email in the future
+            {$set : {lastCategoryIndex:req.params.id}}, {new: true},(err,doc)=>{}
+        )
+        res.status(200).send({
+                message: 'STORE LASTCATEGORYINDEX OK',
+                  });
+});
+
 
 module.exports = router;

@@ -45,10 +45,6 @@ class GetItem {
     this.similarIndex = 0;
   }
 
-  storeLastCategoryIndex() {
-    console.log('store category index');
-  }
-
   getFirstItem(callback) {
     this.setNewRoot(callback);
   }
@@ -70,7 +66,6 @@ class GetItem {
         let newTree = new TreeNode(this.root, similarItems[i]);
         arrayOfTrees.push(newTree);
       }
-      //console.log('similar items = ', similarItems);
       this.curr.children = arrayOfTrees;
       this.curr.parent = this.curr;
       this.curr = this.curr.children[this.similarIndex];
@@ -78,20 +73,6 @@ class GetItem {
     }).catch((error) => {
       console.log(error);
     });
-    /*
-    findSimilarItems(this.curr.itemId, (similarItems) => {
-      let arrayOfTrees = [];
-      for(let i = 0; i < similarItems.length; i++) {
-        let newTree = new TreeNode(this.root, similarItems[i]);
-        arrayOfTrees.push(newTree);
-      }
-      //console.log('similar items = ', similarItems);
-      this.curr.children = arrayOfTrees;
-      this.curr.parent = this.curr;
-      this.curr = this.curr.children[this.similarIndex];
-      callback(this.curr.itemId);
-    }
-    */
   }
 
   setNewRoot(callback) {
@@ -102,33 +83,12 @@ class GetItem {
         let newTree = new TreeNode(this.root, topSellers[i]);
         arrayOfTrees.push(newTree);
       }
-      //console.log('top sellers = ', topSellers);
       this.categoryIndex += 1;
       this.root.children = arrayOfTrees;
       this.curr = this.root.children[0];
       this.curr.parent = this.root;
       callback(this.curr.itemId);
     })
-    /*
-    findTopSellers(listOfCategories[this.categoryIndex].toString(),(topSellers) => {
-      let arrayOfTrees = [];
-      for(let i = 0; i < topSellers.length; i++) {
-        let newTree = new TreeNode(this.root, topSellers[i]);
-        arrayOfTrees.push(newTree);
-      }
-      //console.log('top sellers = ', topSellers);
-      this.categoryIndex += 1;
-      this.root.children = arrayOfTrees;
-      this.curr = this.root.children[0];
-      this.curr.parent = this.root;
-      callback(this.curr.itemId);
-    });
-    */
-  }
-
-  addToWishlist() {
-    console.log('store to wishlist');
-    //storeWishList(this.curr.itemId);
   }
 
   getNextItem(selection, callback) {
@@ -152,7 +112,6 @@ class GetItem {
     }
     //wishlist
     if(selection == 2) {
-      this.addToWishlist();
       this.setNewRoot(callback);
       this.numOfDislikes = 0;
     }
@@ -173,17 +132,6 @@ const firstItem = (itemGetter, callback) => {
     axios.get('/itemLookup/'+result).then((lookupResult) => {
       callback(lookupResult.data);
     });
-    /*
-    itemLookup(result,
-      (lookupResult => {
-        callback(lookupResult);
-      })
-    ,
-      () => {
-        errorItem(itemGetter, callback);
-      }
-    );
-    */
   });
 }
 
@@ -192,17 +140,6 @@ const dislikeItem = (itemGetter, callback) => {
     axios.get('/itemLookup/'+result).then((lookupResult) => {
       callback(lookupResult.data);
     });
-    /*
-    itemLookup(result,
-      (lookupResult => {
-        callback(lookupResult);
-      })
-    ,
-      () => {
-        errorItem(itemGetter, callback);
-      }
-    );
-    */
   });
 }
 
@@ -211,17 +148,6 @@ const likeItem = (itemGetter, callback) => {
     axios.get('/itemLookup/'+result).then((lookupResult) => {
       callback(lookupResult.data);
     });
-    /*
-    itemLookup(result,
-      (lookupResult => {
-        callback(lookupResult);
-      })
-    ,
-      () => {
-        errorItem(itemGetter, callback);
-      }
-    );
-    */
   });
 }
 
@@ -230,17 +156,6 @@ const wishListItem = (itemGetter, callback) => {
     axios.get('/itemLookup/'+result).then((lookupResult) => {
       callback(lookupResult.data);
     });
-    /*
-    itemLookup(result,
-      (lookupResult => {
-        callback(lookupResult);
-      })
-    ,
-      () => {
-        errorItem(itemGetter, callback);
-      }
-    );
-    */
   });
 }
 
@@ -249,18 +164,15 @@ const errorItem = (itemGetter, callback) => {
     axios.get('/itemLookup/'+result).then((lookupResult) => {
       callback(lookupResult.data);
     });
-    /*
-    itemLookup(result,
-      (lookupResult => {
-        callback(lookupResult);
-      })
-    ,
-      () => {
-        errorItem(itemGetter, callback);
-      }
-    );
-    */
   });
+}
+
+const storeLastCategoryIndex = (email, categoryIndex) => {
+  let url = 'http://localhost:3000/api/DB/' + String(email) + '/' + String(categoryIndex);
+  axios.put(url).then(response => {
+    console.log(response);
+  });
+  console.log('store category index');
 }
 
 module.exports = {
@@ -269,6 +181,7 @@ module.exports = {
   likeItem,
   dislikeItem,
   wishListItem,
+  storeLastCategoryIndex,
 }
 
 /**

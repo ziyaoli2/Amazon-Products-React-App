@@ -34,7 +34,7 @@ class Register extends Component {
         const password = encodeURIComponent(this.state.user.password);
         const formData = `name=${name}&email=${email}&password=${password}`;
 
-        // create an AJAX POST request (This should probably done with Axios instead) 
+        // create an AJAX POST request (This should probably done with Axios instead)
         const xhr = new XMLHttpRequest();
         xhr.open('post', '/api/register');
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -86,7 +86,7 @@ class Register extends Component {
                         <Input label="Password" onChange={this.onChangePassword} />
                         <br/><br/>
                         <p>{this.state.message}</p>
-                        <Input type="submit" />
+                        <Input type="submit" value = "Submit"/>
                         <h4>Already registered? Click <Link to="/login">here</Link> to Log-in!</h4>
 
 
