@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { Button, Card } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import { GetItem, firstItem, likeItem, dislikeItem, wishListItem, storeLastCategoryIndex } from '../../../../backend/main.js'
+import { GetItem, firstItem, likeItem, dislikeItem, wishListItem } from '../../../../backend/main.js'
 import axios from 'axios'
 
 import styles from './styles.scss'
@@ -17,14 +17,27 @@ class Dashboard extends Component {
         this.state = {
             isLoggedIn: true,
             itemGetter: {},
+            image:''
         }
-
+        //this.showURL = this.showURL.bind(this);
         this.logOut = this.logOut.bind(this);
         this.like = this.like.bind(this);
         this.dislike = this.dislike.bind(this);
         this.addToWishlist = this.addToWishlist.bind(this);
-        this.storeToWishlist = this.storeToWishlist.bind(this);
         this.getFirstItem = this.getFirstItem.bind(this);
+        this.showimage = this.showimage.bind(this);
+    }
+    // handleProp(props) {
+    //       console.log('get email from props' + this.props.location.state.email);
+    //       //return props.Empnumber;
+    // }
+    // showURL() {
+    //       console.log(this.state.image);
+    //       //return props.Empnumber;
+    // }
+
+    showimage(){
+        console.log(this.state.image);
     }
 
     getFirstItem() {
@@ -33,19 +46,32 @@ class Dashboard extends Component {
       })
     }
 
-    componentWillMount() {
-      // get the last category index from db
-      let newItemGetter = new GetItem(0);
-      this.setState({
-        itemGetter: newItemGetter,
-      })
-      firstItem(newItemGetter, (result) => {
-        console.log('first = ',result);
-      });
-    }
-
     componentDidMount() {
-        axios.get('/api/profile').then( (res) => {
+      let newItemGetter = new GetItem(0);
+      firstItem(newItemGetter, (result) => {
+        console.log('first = ',JSON.stringify(result));
+        //let res = JSON.stringify(result);
+        let resultarray = [];
+        for (i in result.MediumImage){
+            resultarray.append(i);
+        }
+        // console.log('medium image',JSON.stringify(result[0].ImageSets[0].ImageSet[0].MediumImage));
+        let img = JSON.stringify(result[0].ImageSets[0].ImageSet[0].MediumImage[0].URL[0]);
+
+        console.log('medium image',img);
+        this.state = {
+            image: img
+        }
+        console.log('this.state.image',this.state.image);
+        //console.log('medium image',JSON.stringify(result[0].ImageSets[0].ImageSet[0].MediumImage[1]));
+        //console.log('image array', JSON.stringify(resultarray));
+        console.log('product ID ',JSON.stringify(result[0].ASIN));
+        //console.log('medium image ',JSON.stringify(result[1].MediumImage));
+        //console.log('medium image ',JSON.stringify(result[2].MediumImage));
+        //console.log('medium image ',JSON.stringify(result[3].MediumImage));
+      });
+
+      axios.get('/api/profile').then( (res) => {
             console.log(res);
             this.setState({
                 isLoggedIn: true
@@ -55,7 +81,26 @@ class Dashboard extends Component {
                 isLoggedIn: false
             })
         })
+        let itemGetter = new GetItem(0);
+        this.setState({itemGetter});
+        console.log(this.state);
     }
+
+    // componentDidMount() {
+    //     axios.get('/api/profile').then( (res) => {
+    //         console.log(res);
+    //         this.setState({
+    //             isLoggedIn: true
+    //         })
+    //     }).catch( (err) => {
+    //         this.setState({
+    //             isLoggedIn: false
+    //         })
+    //     })
+    //     let itemGetter = new GetItem(0);
+    //     this.setState({itemGetter});
+    //     console.log(this.state);
+    // }
 
     logOut() {
         axios.get('/api/logout').then( (res) => {
@@ -63,41 +108,13 @@ class Dashboard extends Component {
         })
     }
     like(){
-      // store last category index
-      storeLastCategoryIndex(this.props.location.state.email, this.state.itemGetter.categoryIndex);
-      console.log(this.state.itemGetter);
-      likeItem(this.state.itemGetter, (result) => {
-        console.log(result);
-      })
       console.log('like button clicked');
     }
 
     dislike(){
-      storeLastCategoryIndex(this.props.location.state.email, this.state.itemGetter.categoryIndex);
-      dislikeItem(this.state.itemGetter, (result) => {
-        console.log(result);
-      })
-        // store last category index
       console.log('dislike button clicked');
     }
-
-    storeToWishlist(email, id) {
-      console.log('store to wishlist');
-      var url = "http://localhost:3000/api/DB/" + String(email) + '/' + String(id);
-      axios
-                .post(url)
-                .then(response => {
-
-                });
-
-    }
-
     addToWishlist(){
-      storeLastCategoryIndex(this.props.location.state.email, this.state.itemGetter.categoryIndex);
-      this.storeToWishlist(this.props.location.state.email, this.state.itemGetter.curr._itemId);
-      wishListItem(this.state.itemGetter, (result) => {
-        console.log(result);
-      });
       console.log('addToWishlist button clicked');
     }
 
@@ -105,11 +122,14 @@ class Dashboard extends Component {
 
         if (this.state.isLoggedIn) {
             //this.getFirstItem();
+            const imageUrl = this.state.image;
+            console.log('url  = ',imageUrl);
             return(
                 <div className="Dashboard">
                     <Card>
                         <h1>Welcome to the App!</h1>
                         <p>You are now logged in.</p>
+                        <p>{this.state.image}</p>
                         <h1>This is the product page</h1>
                         <Link to="/wishlist">
                             Wishlist
@@ -118,7 +138,7 @@ class Dashboard extends Component {
                             Log out
                         </Link>
                         <Carousel>
-                              <img src="http://placehold.it/1000x400/ffffff/c0392b/&text=slide1"/>
+                              <img width='200px' height='200px' src="https://images-na.ssl-images-amazon.com/images/I/51ofPk-PvOL._SL160_.jpg"/>
                               <img src="http://placehold.it/1000x400/ffffff/c0392b/&text=slide2"/>
                               <img src="http://placehold.it/1000x400/ffffff/c0392b/&text=slide3"/>
                               <img src="http://placehold.it/1000x400/ffffff/c0392b/&text=slide4"/>
@@ -127,6 +147,7 @@ class Dashboard extends Component {
                         <button onClick={this.like}> like </button>
                         <button onClick={this.dislike}> dislike </button>
                         <button onClick={this.addToWishlist}> Add to wishlist </button>
+                        <button onClick={this.showimage}> show image </button>
                 </div>
 
             )
@@ -158,12 +179,12 @@ import axios from 'axios'
 import styles from './styles.scss'
 import Carousel from 'nuka-carousel'
 
-
+ 
 import { GetItem, firstItem, likeItem, dislikeItem, wishListItem } from '../../../../backend/main.js'
 //get email in the props and call axios get to get the wishlist //
 
 class Dashboard extends Component {
-
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -190,7 +211,7 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-
+        
 
         axios.get('/api/profile').then( (res) => {
             console.log(res);
