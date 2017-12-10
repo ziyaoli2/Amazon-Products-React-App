@@ -71,7 +71,6 @@ class Dashboard extends Component {
         //console.log('image array', JSON.stringify(resultarray));
         console.log('product ID ',JSON.stringify(result[0].ASIN));
         });
-
       }
 
     componentDidMount() {
@@ -218,6 +217,10 @@ import axios from 'axios'
 import styles from './styles.scss'
 import Carousel from 'nuka-carousel'
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 591176ea7968e428824358366dd5344e7b0c351a
 import { GetItem, firstItem, likeItem, dislikeItem, wishListItem } from '../../../../backend/main.js'
 //get email in the props and call axios get to get the wishlist //
 class Dashboard extends Component {
@@ -245,6 +248,10 @@ class Dashboard extends Component {
         });
     }
     componentDidMount() {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 591176ea7968e428824358366dd5344e7b0c351a
 
         axios.get('/api/profile').then( (res) => {
             console.log(res);
