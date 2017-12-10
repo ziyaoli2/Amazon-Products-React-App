@@ -34,6 +34,7 @@ class Dashboard extends Component {
     }
 
     componentWillMount() {
+      // get the last category index from db
       let newItemGetter = new GetItem(0);
       this.setState({
         itemGetter: newItemGetter,
@@ -41,7 +42,6 @@ class Dashboard extends Component {
       firstItem(newItemGetter, (result) => {
         console.log('first = ',result);
       });
-      storeLastCategoryIndex('abc',0);
     }
 
     componentDidMount() {
@@ -55,10 +55,6 @@ class Dashboard extends Component {
                 isLoggedIn: false
             })
         })
-        let itemGetter = new GetItem(0);
-        this.setState({itemGetter});
-        console.log(this.state);
-
     }
 
     logOut() {
@@ -67,16 +63,26 @@ class Dashboard extends Component {
         })
     }
     like(){
+      // store last category index
+      storeLastCategoryIndex(this.props.location.state.email, this.state.itemGetter.categoryIndex);
+      console.log(this.state.itemGetter);
+      likeItem(this.state.itemGetter, (result) => {
+        console.log(result);
+      })
       console.log('like button clicked');
     }
 
     dislike(){
+      storeLastCategoryIndex(this.props.location.state.email, this.state.itemGetter.categoryIndex);
+      dislikeItem(this.state.itemGetter, (result) => {
+        console.log(result);
+      })
+        // store last category index
       console.log('dislike button clicked');
     }
 
     storeToWishlist(email, id) {
       console.log('store to wishlist');
-      //storeWishList(this.curr.itemId);
       var url = "http://localhost:3000/api/DB/" + String(email) + '/' + String(id);
       axios
                 .post(url)
@@ -87,8 +93,11 @@ class Dashboard extends Component {
     }
 
     addToWishlist(){
-      this.storeToWishlist('abc', 'bcd');
-      storeLastCategoryIndex('abc',0);
+      storeLastCategoryIndex(this.props.location.state.email, this.state.itemGetter.categoryIndex);
+      this.storeToWishlist(this.props.location.state.email, this.state.itemGetter.curr._itemId);
+      wishListItem(this.state.itemGetter, (result) => {
+        console.log(result);
+      });
       console.log('addToWishlist button clicked');
     }
 
