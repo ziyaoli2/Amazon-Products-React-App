@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "amazon-product-api": "^0.4.4",
+    "aws-product-api": "^1.2.5",
     "axios": "^0.17.1",
     "babel": "^6.23.0",
     "babel-core": "^6.26.0",
