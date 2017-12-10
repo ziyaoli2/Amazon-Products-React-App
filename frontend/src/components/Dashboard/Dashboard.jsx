@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { Button, Card } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import { GetItem, firstItem, likeItem, dislikeItem, wishListItem } from '../../../../backend/main.js'
+import { GetItem, firstItem, likeItem, dislikeItem, wishListItem, storeLastCategoryIndex } from '../../../../backend/main.js'
 import axios from 'axios'
 
 import styles from './styles.scss'
@@ -17,7 +17,11 @@ class Dashboard extends Component {
         this.state = {
             isLoggedIn: true,
             itemGetter: {},
-            image:''
+            URL1:"",
+            URL2:"",
+            URL3:"",
+            URL4:"",
+            productName:""
         }
         //this.showURL = this.showURL.bind(this);
         this.logOut = this.logOut.bind(this);
@@ -27,14 +31,7 @@ class Dashboard extends Component {
         this.getFirstItem = this.getFirstItem.bind(this);
         this.showimage = this.showimage.bind(this);
     }
-    // handleProp(props) {
-    //       console.log('get email from props' + this.props.location.state.email);
-    //       //return props.Empnumber;
-    // }
-    // showURL() {
-    //       console.log(this.state.image);
-    //       //return props.Empnumber;
-    // }
+
 
     showimage(){
         console.log(this.state.image);
@@ -46,75 +43,118 @@ class Dashboard extends Component {
       })
     }
 
-    componentDidMount() {
-      let newItemGetter = new GetItem(0);
-      firstItem(newItemGetter, (result) => {
-        console.log('first = ',JSON.stringify(result));
-        //let res = JSON.stringify(result);
-        let resultarray = [];
-        for (i in result.MediumImage){
-            resultarray.append(i);
-        }
-        // console.log('medium image',JSON.stringify(result[0].ImageSets[0].ImageSet[0].MediumImage));
-        let img = JSON.stringify(result[0].ImageSets[0].ImageSet[0].MediumImage[0].URL[0]);
+    componentWillMount() {
+       // get the last category index from db
+        let newItemGetter = new GetItem(0);
+        this.setState({
+          itemGetter: newItemGetter,
+        })
+        firstItem(newItemGetter, (result) => {
+          console.log('first = ',result);
+          let img = result[0].ImageSets[0].ImageSet[0].LargeImage[0].URL[0];
+          let img2 = result[0].ImageSets[0].ImageSet;
+          let url1 = img2[0].LargeImage[0].URL[0];
+          let url2 = img2[1].LargeImage[0].URL[0];
+          let url3 = img2[2].LargeImage[0].URL[0];
+          let url4 = img2[3].LargeImage[0].URL[0];
+          let name = result[0].ItemAttributes[0].Title[0].toString();
+        this.setState({
 
-        console.log('medium image',img);
-        this.state = {
-            image: img
-        }
+            URL1:url1,
+            URL2:url2,
+            URL3:url3,
+            URL4:url4,
+            productName: name
+        });
         console.log('this.state.image',this.state.image);
         //console.log('medium image',JSON.stringify(result[0].ImageSets[0].ImageSet[0].MediumImage[1]));
         //console.log('image array', JSON.stringify(resultarray));
         console.log('product ID ',JSON.stringify(result[0].ASIN));
-        //console.log('medium image ',JSON.stringify(result[1].MediumImage));
-        //console.log('medium image ',JSON.stringify(result[2].MediumImage));
-        //console.log('medium image ',JSON.stringify(result[3].MediumImage));
-      });
+        });
+ 
+      }
+
+    componentDidMount() {
+
 
       axios.get('/api/profile').then( (res) => {
-            console.log(res);
-            this.setState({
-                isLoggedIn: true
-            })
-        }).catch( (err) => {
-            this.setState({
-                isLoggedIn: false
-            })
-        })
-        let itemGetter = new GetItem(0);
-        this.setState({itemGetter});
-        console.log(this.state);
+             console.log(res);
+             this.setState({
+                 isLoggedIn: true
+             })
+         }).catch( (err) => {
+             this.setState({
+                  isLoggedIn: false
+              })
+          })
     }
 
-    // componentDidMount() {
-    //     axios.get('/api/profile').then( (res) => {
-    //         console.log(res);
-    //         this.setState({
-    //             isLoggedIn: true
-    //         })
-    //     }).catch( (err) => {
-    //         this.setState({
-    //             isLoggedIn: false
-    //         })
-    //     })
-    //     let itemGetter = new GetItem(0);
-    //     this.setState({itemGetter});
-    //     console.log(this.state);
-    // }
 
     logOut() {
         axios.get('/api/logout').then( (res) => {
             console.log("Logged out");
-        })
+        }) 
     }
+
     like(){
+         // store last category index
+       storeLastCategoryIndex(this.props.location.state.email, this.state.itemGetter.categoryIndex);
+       console.log(this.state.itemGetter);
+       likeItem(this.state.itemGetter, (result) => {
+         //console.log(result);
+         console.log('like = ',result);
+          let img = result[0].ImageSets[0].ImageSet[0].LargeImage[0].URL[0];
+          let img2 = result[0].ImageSets[0].ImageSet;
+          let url1 = img2[0].LargeImage[0].URL[0];
+          let url2 = img2[1].LargeImage[0].URL[0];
+          let url3 = img2[2].LargeImage[0].URL[0];
+          let url4 = img2[3].LargeImage[0].URL[0];
+          let name = result[0].ItemAttributes[0].Title[0].toString();
+
+        this.setState({
+
+            URL1:url1,
+            URL2:url2,
+            URL3:url3,
+            URL4:url4,
+            productName: name
+        });
+        //window.load();
+       })
       console.log('like button clicked');
     }
 
     dislike(){
+        storeLastCategoryIndex(this.props.location.state.email, this.state.itemGetter.categoryIndex);
+        dislikeItem(this.state.itemGetter, (result) => {
+         //console.log(result);
+         console.log('dislike = ',result);
+          //let img = result[0].ImageSets[0].ImageSet[0].LargeImage[0].URL[0];
+          let img2 = result[0].ImageSets[0].ImageSet;
+          let url1 = img2[0].LargeImage[0].URL[0];
+          let url2 = img2[1].LargeImage[0].URL[0];
+          let url3 = img2[2].LargeImage[0].URL[0];
+          let url4 = img2[3].LargeImage[0].URL[0];
+          let name = result[0].ItemAttributes[0].Title[0].toString();
+
+        this.setState({
+            URL1:url1,
+            URL2:url2,
+            URL3:url3,
+            URL4:url4,
+            productName: name
+        });
+       })
+         // store last category index
       console.log('dislike button clicked');
     }
+
     addToWishlist(){
+       storeLastCategoryIndex(this.props.location.state.email, this.state.itemGetter.categoryIndex);
+       this.storeToWishlist(this.props.location.state.email, this.state.itemGetter.curr._itemId);
+       wishListItem(this.state.itemGetter, (result) => {
+         console.log(result);
+       });
       console.log('addToWishlist button clicked');
     }
 
@@ -124,32 +164,33 @@ class Dashboard extends Component {
             //this.getFirstItem();
             const imageUrl = this.state.image;
             console.log('url  = ',imageUrl);
+            //const ele = <img width='200px' height='200px' src={this.state.image}/>;
+            //const bb = url(this.state.image);
             return(
                 <div className="Dashboard">
                     <Card>
-                        <h1>Welcome to the App!</h1>
-                        <p>You are now logged in.</p>
-                        <p>{this.state.image}</p>
                         <h1>This is the product page</h1>
                         <Link to="/wishlist">
                             Wishlist
                         </Link>
+
                         <Link to="/" onClick={this.logOut}>
-                            Log out
+                            Log out  
                         </Link>
+                        <h1>{this.state.productName}</h1>
                         <Carousel>
-                              <img width='200px' height='200px' src="https://images-na.ssl-images-amazon.com/images/I/51ofPk-PvOL._SL160_.jpg"/>
-                              <img src="http://placehold.it/1000x400/ffffff/c0392b/&text=slide2"/>
-                              <img src="http://placehold.it/1000x400/ffffff/c0392b/&text=slide3"/>
-                              <img src="http://placehold.it/1000x400/ffffff/c0392b/&text=slide4"/>
+                              <img width='200px' height='200px' src={this.state.URL1}/>
+                              <img width='200px' height='200px' src={this.state.URL2}/>
+                              <img width='200px' height='200px' src={this.state.URL3}/>
+                              <img width='200px' height='200px' src={this.state.URL4}/>
                         </Carousel>
+
                     </Card>
                         <button onClick={this.like}> like </button>
                         <button onClick={this.dislike}> dislike </button>
                         <button onClick={this.addToWishlist}> Add to wishlist </button>
                         <button onClick={this.showimage}> show image </button>
                 </div>
-
             )
         } else {
             return(
