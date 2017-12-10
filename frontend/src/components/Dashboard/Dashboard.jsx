@@ -27,6 +27,7 @@ class Dashboard extends Component {
         this.logOut = this.logOut.bind(this);
         this.like = this.like.bind(this);
         this.dislike = this.dislike.bind(this);
+        this.storeToWishlist = this.storeToWishlist.bind(this);
         this.addToWishlist = this.addToWishlist.bind(this);
         this.getFirstItem = this.getFirstItem.bind(this);
         this.showimage = this.showimage.bind(this);
@@ -45,6 +46,7 @@ class Dashboard extends Component {
 
     componentWillMount() {
        // get the last category index from db
+
         let newItemGetter = new GetItem(0);
         this.setState({
           itemGetter: newItemGetter,
@@ -98,17 +100,38 @@ class Dashboard extends Component {
     like(){
          // store last category index
        storeLastCategoryIndex(this.props.location.state.email, this.state.itemGetter.categoryIndex);
-       console.log(this.state.itemGetter);
+       console.log('itemgetter = ',this.state.itemGetter);
        likeItem(this.state.itemGetter, (result) => {
          //console.log(result);
          console.log('like = ',result);
           let img = result[0].ImageSets[0].ImageSet[0].LargeImage[0].URL[0];
           let img2 = result[0].ImageSets[0].ImageSet;
-          let url1 = img2[0].LargeImage[0].URL[0];
+          let url1 = '';
+          let url2 = '';
+          let url3 = '';
+          let url4 = '';
+          let name = '';
+          if(typeof img2[0] !== 'undefined') {
+            url1 = img2[0].LargeImage[0].URL[0];
+          }
+          if(typeof img2[1] !== 'undefined') {
+            url2 = img2[1].LargeImage[0].URL[0];
+          }
+          if(typeof img2[2] !== 'undefined') {
+            url3 = img2[2].LargeImage[0].URL[0];
+          }
+          if(typeof img2[3] !== 'undefined') {
+            url4 = img2[3].LargeImage[0].URL[0];
+          }
+          if(typeof result[0].ItemAttributes[0].Title[0] !== 'undefined') {
+            name = result[0].ItemAttributes[0].Title[0].toString();
+          }
+          /*
           let url2 = img2[1].LargeImage[0].URL[0];
           let url3 = img2[2].LargeImage[0].URL[0];
           let url4 = img2[3].LargeImage[0].URL[0];
           let name = result[0].ItemAttributes[0].Title[0].toString();
+          */
 
         this.setState({
 
@@ -125,17 +148,41 @@ class Dashboard extends Component {
 
     dislike(){
         storeLastCategoryIndex(this.props.location.state.email, this.state.itemGetter.categoryIndex);
+        console.log('itemgetter = ',this.state.itemGetter);
         dislikeItem(this.state.itemGetter, (result) => {
          //console.log(result);
          console.log('dislike = ',result);
           //let img = result[0].ImageSets[0].ImageSet[0].LargeImage[0].URL[0];
           let img2 = result[0].ImageSets[0].ImageSet;
+          /*
           let url1 = img2[0].LargeImage[0].URL[0];
           let url2 = img2[1].LargeImage[0].URL[0];
           let url3 = img2[2].LargeImage[0].URL[0];
           let url4 = img2[3].LargeImage[0].URL[0];
           let name = result[0].ItemAttributes[0].Title[0].toString();
-
+          let img = result[0].ImageSets[0].ImageSet[0].LargeImage[0].URL[0];
+          let img2 = result[0].ImageSets[0].ImageSet;
+          */
+          let url1 = '';
+          let url2 = '';
+          let url3 = '';
+          let url4 = '';
+          let name = '';
+          if(typeof img2[0] !== 'undefined') {
+            url1 = img2[0].LargeImage[0].URL[0];
+          }
+          if(typeof img2[1] !== 'undefined') {
+            url2 = img2[1].LargeImage[0].URL[0];
+          }
+          if(typeof img2[2] !== 'undefined') {
+            url3 = img2[2].LargeImage[0].URL[0];
+          }
+          if(typeof img2[3] !== 'undefined') {
+            url4 = img2[3].LargeImage[0].URL[0];
+          }
+          if(typeof result[0].ItemAttributes[0].Title[0] !== 'undefined') {
+            name = result[0].ItemAttributes[0].Title[0].toString();
+          }
         this.setState({
             URL1:url1,
             URL2:url2,
@@ -146,6 +193,17 @@ class Dashboard extends Component {
        })
          // store last category index
       console.log('dislike button clicked');
+    }
+
+    storeToWishlist(email, id) {
+      console.log('store to wishlist');
+      var url = "http://localhost:3000/api/DB/" + String(email) + '/' + String(id);
+      axios
+                .post(url)
+                .then(response => {
+
+                });
+
     }
 
     addToWishlist(){

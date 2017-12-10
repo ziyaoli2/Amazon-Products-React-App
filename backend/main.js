@@ -47,13 +47,16 @@ class GetItem {
 
   getFirstItem(callback) {
     this.setNewRoot(callback);
+    this.categoryIndex += 1;
   }
 
   selectAfterDislike(callback) {
     //get parent's next child.
     if(this.curr.parent !== null) {
       let parent = this.curr.parent;
-      this.curr = parent.children[this.numOfDislikes];
+      if(typeof parent.children[this.numOfDislikes] !== 'undefined') {
+        this.curr = parent.children[this.numOfDislikes];;
+      }
       callback(this.curr.itemId);
     }
   }
@@ -66,9 +69,18 @@ class GetItem {
         let newTree = new TreeNode(this.root, similarItems[i]);
         arrayOfTrees.push(newTree);
       }
+      console.log('thiscurr = ', this.curr);
+      const parent = this.curr.parent;
+      const curr = this.curr;
+      const children = this.curr.children;
       this.curr.children = arrayOfTrees;
       this.curr.parent = this.curr;
       this.curr = this.curr.children[this.similarIndex];
+      if(typeof this.curr === 'undefined') {
+        this.curr = curr;
+        this.curr.parent = parent;
+        this.curr.children = children;
+      }
       callback(this.curr.itemId);
     }).catch((error) => {
       console.log(error);
@@ -83,7 +95,6 @@ class GetItem {
         let newTree = new TreeNode(this.root, topSellers[i]);
         arrayOfTrees.push(newTree);
       }
-      this.categoryIndex += 1;
       this.root.children = arrayOfTrees;
       this.curr = this.root.children[0];
       this.curr.parent = this.root;
@@ -95,7 +106,9 @@ class GetItem {
     //dislike
     if(selection == 0) {
       this.numOfDislikes += 1;
-      if(this.numOfDislikes == 4) {
+      if(this.numOfDislikes > 3) {
+        this.numOfDislikes = 0;
+        this.categoryIndex += 1;
         this.setNewRoot(callback);
       } else {
         this.selectAfterDislike(callback);
@@ -112,6 +125,7 @@ class GetItem {
     }
     //wishlist
     if(selection == 2) {
+      this.categoryIndex += 1;
       this.setNewRoot(callback);
       this.numOfDislikes = 0;
     }
@@ -131,6 +145,8 @@ const firstItem = (itemGetter, callback) => {
   itemGetter.getFirstItem((result) => {
     axios.get('/itemLookup/'+result).then((lookupResult) => {
       callback(lookupResult.data);
+    }).catch((error) => {
+      errorItem(itemGetter,callback)
     });
   });
 }
@@ -138,7 +154,12 @@ const firstItem = (itemGetter, callback) => {
 const dislikeItem = (itemGetter, callback) => {
   itemGetter.getNextItem(0, (result)=> {
     axios.get('/itemLookup/'+result).then((lookupResult) => {
-      callback(lookupResult.data);
+      console.log('lokupresult = ', lookupResult);
+      if(lookupResult.data === 'error'){
+        errorItem(itemGetter,callback)
+      } else {
+        callback(lookupResult.data);
+      }
     });
   });
 }
@@ -146,7 +167,12 @@ const dislikeItem = (itemGetter, callback) => {
 const likeItem = (itemGetter, callback) => {
   itemGetter.getNextItem(1, (result)=> {
     axios.get('/itemLookup/'+result).then((lookupResult) => {
-      callback(lookupResult.data);
+      console.log('lokupresult = ', lookupResult);
+      if(lookupResult.data === 'error'){
+        errorItem(itemGetter,callback)
+      } else {
+        callback(lookupResult.data);
+      }
     });
   });
 }
@@ -154,7 +180,11 @@ const likeItem = (itemGetter, callback) => {
 const wishListItem = (itemGetter, callback) => {
   itemGetter.getNextItem(2, (result)=> {
     axios.get('/itemLookup/'+result).then((lookupResult) => {
-      callback(lookupResult.data);
+      if(lookupResult.data === 'error'){
+        errorItem(itemGetter,callback)
+      } else {
+        callback(lookupResult.data);
+      }
     });
   });
 }
@@ -162,7 +192,11 @@ const wishListItem = (itemGetter, callback) => {
 const errorItem = (itemGetter, callback) => {
   itemGetter.getNextItem(3, (result)=> {
     axios.get('/itemLookup/'+result).then((lookupResult) => {
-      callback(lookupResult.data);
+      if(lookupResult.data === 'error'){
+        errorItem(itemGetter,callback)
+      } else {
+        callback(lookupResult.data);
+      }
     });
   });
 }

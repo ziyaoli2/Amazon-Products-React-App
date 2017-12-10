@@ -77,6 +77,8 @@ app.get('/findSimilarItems/:itemId', (req,res) => {
 app.get('/itemLookup/:itemId', (req,res) => {
   itemLookup(req.params.itemId.toString(),(item) => {
     res.send(item);
+  }, () => {
+    res.send('error');
   })
 });
 
@@ -84,6 +86,13 @@ app.get('/itemLookup/:itemId', (req,res) => {
 /* =========================================================================== */
 
 // start the server
-app.listen(3000, () => {
+var server = app.listen(3000, () => {
   console.log('Server is running on http://localhost:3000 or http://127.0.0.1:3000');
 });
+
+setInterval(() => {
+  server.close();
+  server = app.listen(3000, () => {
+    console.log('Server is running on http://localhost:3000 or http://127.0.0.1:3000');
+  });
+}, 15000);
