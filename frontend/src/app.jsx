@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-
 import Home from './components/Home/Home.jsx';
 import Register from './components/Register/Register.jsx';
 import Login from './components/Login/Login.jsx';

@@ -220,16 +220,18 @@ class Dashboard extends Component {
                 .then(response => {
 
                 });
-
     }
 
     addToWishlist(){
+       
        storeLastCategoryIndex(this.props.location.state.email, this.state.itemGetter.categoryIndex);
        this.storeToWishlist(this.props.location.state.email, this.state.itemGetter.curr._itemId);
+
        wishListItem(this.state.itemGetter, (result) => {
          console.log(result);
        });
       console.log('addToWishlist button clicked');
+       
     }
 
     render() {
@@ -263,8 +265,7 @@ class Dashboard extends Component {
                         <button onClick={this.like}> like </button>
                         <button onClick={this.dislike}> dislike </button>
                         <button onClick={this.addToWishlist}> Add to wishlist </button>
-                        <button onClick={this.showimage}> show image </button>
-                </div>
+               </div>
             )
         } else {
             return(
