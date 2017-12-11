@@ -205,7 +205,7 @@ class Dashboard extends Component {
           else{
             url4 = url3;
           }
-          
+
           if(typeof result[0].ItemAttributes[0].Title[0] !== 'undefined') {
             name = result[0].ItemAttributes[0].Title[0].toString();
           }
@@ -223,7 +223,7 @@ class Dashboard extends Component {
 
     storeToWishlist(email, id) {
       console.log('store to wishlist');
-      var url = "http://localhost:3000/api/DB/" + String(email) + '/' + String(id);
+      var url = '/api/DB/' + String(email) + '/' + String(id);
       axios
                 .post(url)
                 .then(response => {
@@ -232,7 +232,7 @@ class Dashboard extends Component {
     }
 
     addToWishlist(){
-       
+
        storeLastCategoryIndex(this.props.location.state.email, this.state.itemGetter.categoryIndex);
        this.storeToWishlist(this.props.location.state.email, this.state.itemGetter.curr._itemId);
 
@@ -240,7 +240,7 @@ class Dashboard extends Component {
          console.log(result);
        });
       console.log('addToWishlist button clicked');
-       
+
     }
 
     render() {

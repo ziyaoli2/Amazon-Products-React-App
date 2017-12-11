@@ -201,7 +201,7 @@ const errorItem = (itemGetter, callback) => {
 }
 
 const storeLastCategoryIndex = (email, categoryIndex) => {
-  let url = 'http://localhost:3000/api/DB/' + String(email) + '/' + String(categoryIndex);
+  let url = '/api/DB/' + String(email) + '/' + String(categoryIndex);
   axios.put(url).then(response => {
     console.log(response);
   });
