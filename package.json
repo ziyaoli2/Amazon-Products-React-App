@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --use_strict index.js",
+    "postinstall": "webpack",
     "dev": "webpack"
   },
   "author": "Simon Lu <shlu2@illinois.edu>",
