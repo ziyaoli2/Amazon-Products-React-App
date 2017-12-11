@@ -21,7 +21,8 @@ class Dashboard extends Component {
             URL2:"",
             URL3:"",
             URL4:"",
-            productName:""
+            productName:"",
+            lastCategoryIndex: 0,
         }
         //this.showURL = this.showURL.bind(this);
         this.logOut = this.logOut.bind(this);
@@ -46,33 +47,41 @@ class Dashboard extends Component {
 
     componentWillMount() {
        // get the last category index from db
+       axios.get('/api/DB/'+this.props.location.state.email).then( (res) => {
+         const lastCategoryIndex = res.data.data.lastCategoryIndex;
+         console.log('res = ', res);
+         console.log('lci = ',  lastCategoryIndex);
+         this.setState({
+           lastCategoryIndex: lastCategoryIndex,
+         });
+         let newItemGetter = new GetItem(this.state.lastCategoryIndex);
+         this.setState({
+           itemGetter: newItemGetter,
+         })
+         firstItem(newItemGetter, (result) => {
+           console.log('first = ',result);
+           let img = result[0].ImageSets[0].ImageSet[0].LargeImage[0].URL[0];
+           let img2 = result[0].ImageSets[0].ImageSet;
+           let url1 = img2[0].LargeImage[0].URL[0];
+           let url2 = img2[1].LargeImage[0].URL[0];
+           let url3 = img2[2].LargeImage[0].URL[0];
+           let url4 = img2[3].LargeImage[0].URL[0];
+           let name = result[0].ItemAttributes[0].Title[0].toString();
+         this.setState({
 
-        let newItemGetter = new GetItem(0);
-        this.setState({
-          itemGetter: newItemGetter,
-        })
-        firstItem(newItemGetter, (result) => {
-          console.log('first = ',result);
-          let img = result[0].ImageSets[0].ImageSet[0].LargeImage[0].URL[0];
-          let img2 = result[0].ImageSets[0].ImageSet;
-          let url1 = img2[0].LargeImage[0].URL[0];
-          let url2 = img2[1].LargeImage[0].URL[0];
-          let url3 = img2[2].LargeImage[0].URL[0];
-          let url4 = img2[3].LargeImage[0].URL[0];
-          let name = result[0].ItemAttributes[0].Title[0].toString();
-        this.setState({
+             URL1:url1,
+             URL2:url2,
+             URL3:url3,
+             URL4:url4,
+             productName: name
+         });
+         console.log('this.state.image',this.state.image);
+         //console.log('medium image',JSON.stringify(result[0].ImageSets[0].ImageSet[0].MediumImage[1]));
+         //console.log('image array', JSON.stringify(resultarray));
+         console.log('product ID ',JSON.stringify(result[0].ASIN));
+         });
+       })
 
-            URL1:url1,
-            URL2:url2,
-            URL3:url3,
-            URL4:url4,
-            productName: name
-        });
-        console.log('this.state.image',this.state.image);
-        //console.log('medium image',JSON.stringify(result[0].ImageSets[0].ImageSet[0].MediumImage[1]));
-        //console.log('image array', JSON.stringify(resultarray));
-        console.log('product ID ',JSON.stringify(result[0].ASIN));
-        });
       }
 
     componentDidMount() {

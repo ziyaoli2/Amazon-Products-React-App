@@ -27,7 +27,7 @@ router.get('/:email', (req, res)=>{
             } else if (doc) {
                 return res.status(200).send({
                                 message: "GET OK!",
-                                data: doc.wishList,
+                                data: doc ,
             });
         }
         }
