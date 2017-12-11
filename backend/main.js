@@ -117,7 +117,6 @@ class GetItem {
     //like
     if(selection == 1) {
       this.generateSubtree(callback);
-      this.numOfDislikes = 0;
       this.similarIndex += 1;
       if(this.similarIndex == 10) {
         this.similarIndex = 0;
