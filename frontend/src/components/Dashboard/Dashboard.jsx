@@ -102,13 +102,7 @@ class Dashboard extends Component {
                        console.log(JSON.stringify(response.data.data));
                                let array = response.data.data;
                                let unique = [...new Set(array)];
-                               // for (var i= 0; i< unique.length; i++){
-
-                               //   if(unique[i][0]!='B'){
-                               //     unique.filter((item, index) => (index !== i));
-                               //   }
-
-                               // }
+                               
 
                                for (var i= 0; i< unique.length; i++){
 
@@ -283,6 +277,8 @@ class Dashboard extends Component {
                                console.log(this.state.products);
 
                });     
+
+      this.like();
 
    }
    gotoWishlist(){
