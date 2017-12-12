@@ -77,22 +77,31 @@ class Register extends Component {
 
     render() {
         return(
-            <form className="Register" action="/" onSubmit={this.onSubmit}>
-                <Card className="Register__content">
-                    <div>
-                        <h1>Register</h1>
-                        <Input label="Email" onChange={this.onChangeEmail} />
-                        <br/><br/>
-                        <Input label="Password" onChange={this.onChangePassword} />
-                        <br/><br/>
-                        <p>{this.state.message}</p>
-                        <Input type="submit" value = "Submit"/>
-                        <h4>Already registered? Click <Link to="/login">here</Link> to Log-in!</h4>
+            <div>
+                <div className="pre_banner"></div>
+                <div className="banner_blue">
+                    <img src="https://ia601503.us.archive.org/18/items/neverknow_201712/neverknow.png"></img>
+                </div>
+                <form className="Register" action="/" onSubmit={this.onSubmit}>
+                    <div className="Register__content">
+                        <div>
+                            <h1>Register</h1>
+                            <br/>
+                            <Input label="&emsp;Email&emsp;" onChange={this.onChangeEmail} />
+                            <br/><br/>
+                            <Input label="Password" onChange={this.onChangePassword} />
+                            <br/><br/>
+                            <p>{this.state.message}</p>
+                            <Input id = "submit" type="submit" value = "&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Sign Up&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;"/>
+                            <h4>Already registered? Click <Link to="/login">here</Link> to Login!</h4>
 
 
+                        </div>
                     </div>
-                </Card>
-            </form>
+                </form>
+                <div className="footer">
+                <p className="footer_text">Robert J Paul &emsp; Ziyao Li &emsp; Edbert Linardi &emsp; Bo Zheng &emsp; Hari Cheruvu</p></div>
+            </div>
     )
 }
 }

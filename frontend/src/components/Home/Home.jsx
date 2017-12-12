@@ -7,9 +7,14 @@ import styles from './styles.scss'
 class Home extends Component {
     render() {
         return(
+            <div>
+            <div className="pre_banner"></div>
+            <div className="banner_green">
+                <img src="https://ia601503.us.archive.org/18/items/neverknow_201712/neverknow.png"></img>
+            </div>
             <div className="Home">
-                <Card>
-                    <h1>Welcome to MP2!</h1>
+                <div>
+                    <h1>Welcome to neverknow!</h1>
 
                     <span>
                         <Link to="/login">
@@ -26,7 +31,11 @@ class Home extends Component {
                     </span>
 
                     <br />
-                </Card>
+                </div>
+            </div>
+            <div className="footer">
+            <p className="footer_text">Robert J Paul &emsp; Ziyao Li &emsp; Edbert Linardi &emsp; Bo Zheng &emsp; Hari Cheruvu</p></div>
+
             </div>
         )
     }
