@@ -80,24 +80,34 @@ this.props.history.push({
 
     render() {
         return(
+        <div>
+            <div className="pre_banner"></div>
+            <div className="banner_green">
+                <img src="https://ia601503.us.archive.org/18/items/neverknow_201712/neverknow.png"></img>
+            </div>
             <form className="Login" action="/" onSubmit={this.onSubmit}>
-            <Card className="Login__content">
-                <div>
-                    <h1>Login</h1>
-                    <Input label="Email" onChange={this.onChangeEmail} />
-                    <br/><br/>
-                    <Input label="Password" onChange={this.onChangePassword} />
-                    <br/><br/>
+                <div className="Login__content">
+                    <div>
 
-                    <p>{this.state.message}</p>
+                        <h1>Home</h1>
+                        <br/>
+                        <Input label="&emsp;Email&emsp;" onChange={this.onChangeEmail} />
+                        <br/><br/>
+                        <Input label="Password" onChange={this.onChangePassword} />
+                        <br/><br/>
 
-                    <Input type="submit" value = "Submit"/>
+                        <p>{this.state.message}</p>
 
-                    <h4>No account yet? Click <Link to="/register">here</Link> to Register!</h4>
+                        <Input id="submit" type="submit" value = "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Login&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"/>
+                        <br/>
+                        <h4>New here? Click <Link to="/register">here</Link> to sign up!</h4>
 
+                    </div>
                 </div>
-            </Card>
-        </form>
+            </form>
+            <div className="footer">
+            <p className="footer_text">Robert J Paul &emsp; Ziyao Li &emsp; Edbert Linardi &emsp; Bo Zheng &emsp; Hari Cheruvu</p></div>
+        </div>
     )
 }
 }
