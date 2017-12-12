@@ -8,124 +8,163 @@ import { Router} from 'react-router';
 import styles from './styles.scss'
 
 class Wishlist extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLoggedIn: false,
-            products: []
-        }
-        this.logOut = this.logOut.bind(this);
-        this.goProductPage = this.goProductPage.bind(this);
-        this.delete = this.delete.bind(this);
-        this.shop = this.shop.bind(this);
-        //this.handleProp = this.handleProp.bind(this);
-        this.refresh = this.refresh.bind(this);
-    }
+  constructor(props) {
+      super(props);
+      this.state = {
+          isLoggedIn: false,
+          products: this.props.location.state.products,
+          productAll:[],
+          singleProduct: {
+              id: "",
+              image: "",
+              URL:"",
+          },
+          obj: []
+      }
+      this.logOut = this.logOut.bind(this);
+      this.goProductPage = this.goProductPage.bind(this);
+      this.delete = this.delete.bind(this);
+      this.shop = this.shop.bind(this);
+      //this.handleProp = this.handleProp.bind(this);
+      this.refresh = this.refresh.bind(this);
+      this.test = this.test.bind(this);
 
-    goProductPage(){
+  }
 
-    }
+  test(){
+      console.log(this.state.productAll);
+  }
+  goProductPage(){
 
-    delete(e) {
-        this.refresh();
-        console.log(String(e.target.value));
-        let id = String(e.target.value);
-        // console.log(id+'delete from wishlist');
-        var url = "http://localhost:3000/api/DB/12" + '/' + id;
-      axios
-                .delete(url)
-                .then(response => {
-                        console.log(String(id));
-                });
-      this.refresh();
-    }
+       //e.preventDefault();
+       let email = encodeURIComponent(this.props.location.state.email);
+       this.props.history.push({
+                               pathname: '/dashboard',
+                               state: { email: email },
+                               });
 
-    refresh(){
-        var url = "http://localhost:3000/api/DB/12";
-      axios
-                .get(url)
-                .then(response => {
-                        console.log(JSON.stringify(response.data.data));
-                                this.setState({
-                                    products:response.data.data
-                                });
-                });       
-    }
-
-    handleProp(props) {
-          console.log('get email from props' + this.props.location.state.email);
-           //return props.Empnumber;
-     }
+  }
 
 
-    logOut() {
-        axios.get('/api/logout').then( (res) => {
-            console.log("Logged out");
-        })
-    }
 
-    shop(){
-            console.log('shop button clicked');
-         window.open('https://www.amazon.com/');
-    }
-     componentWillMount(){
-            //let email = this.props.location.state.email;
-            var url = "http://localhost:3000/api/DB/12";
-      axios
-                .get(url)
-                .then(response => {
-                        console.log(JSON.stringify(response.data.data));
-                                this.setState({
-                                    products:response.data.data
-                                });
-                });       
-     }
-     // componentDidMount(){
-     //        //let email = this.props.location.state.email;
-     //        var url = "http://localhost:3000/api/DB/12";
-     //  axios
-     //            .get(url)
-     //            .then(response => {
-     //                    console.log(JSON.stringify(response.data.data));
-     //                            this.setState({
-     //                                products:response.data.data
-     //                            });
-     //            });
-     // }
-
-    render() {
-            return(
-                <div>  
-                    <h1>This is the wishlist page</h1>
-                    <Link to="/" onClick={this.logOut}>
-                            Log out
-                    </Link>
-                    <div>
-                    <Link to="/dashboard" onClick={this.goProductPage}>
-                            product page
-                    </Link>
+  delete(item){
+  const newState = this.state.obj;
+  if (newState.indexOf(item) > -1) {
+    newState.splice(newState.indexOf(item), 1);
+    this.setState({obj: newState})
+  }
+      let id = String(item.id);
+      // console.log(id+'delete from wishlist');
+      var url = "http://localhost:3000/api/DB/" + String(this.props.location.state.email) + '/' + id;
+       axios
+              .delete(url)
+              .then(response => {
+                      console.log(String(id));
+              });
 
 
-                    <div>
-                        {this.state.products.map((item, index) => (
+}
 
-                           <div className="Wishlist" key={index} value={item} >
-                                <p>{item}</p>
-                                <button  value={item} onClick={this.delete}> delete </button>
-                                <button  value={item} onClick={this.shop}> shop </button> 
-                           </div>
+  refresh(tempObj){
+      this.setState({obj:tempObj});
+  }
 
-                        ))}
 
-                    </div>
+  logOut() {
+      axios.get('/api/logout').then( (res) => {
+          console.log("Logged out");
+      })
+  }
 
-  
-                    </div>
-                </div>
+  shop(object){
+       //let URL = String(e.target.);
 
-            )
-        
-    }
+       console.log(object.URL);
+       window.open(object.URL);
+  }
+
+
+   componentWillMount(){
+     // let productAll = this.state.productAll;
+      //let temp = [];
+      let array = this.state.products;
+      //let singleProduct = this.state.singleProduct;
+      for (var i =0; i< array.length; i++){
+          //console.log('########################')
+          console.log(array[i]);
+          let id = array[i];
+
+          if(id[0]=='B'){
+              var url = "http://localhost:3000/itemLookup" + '/' + String(id);
+          axios
+                  .get(url)
+                  .then(response => {
+
+                          let image = response.data[0].ImageSets[0].ImageSet[0].LargeImage[0].URL[0];
+                          let URL = response.data[0].DetailPageURL[0];
+
+                                  const productAll = this.state.productAll;
+                                  productAll[id] = {id: id, image: image, URL:URL};
+                                  this.setState(productAll);
+
+                           console.log('product all 1');  
+                           console.log(this.state.productAll);
+                           let dictionary = this.state.productAll;
+                           var values = Object.keys(dictionary).map(function(key){
+                              return dictionary[key];
+                          });
+                           console.log(JSON.stringify(values));
+                           this.setState({obj:values});
+                           console.log(this.state.obj);
+                  });
+
+          }
+
+      }
+      //this.setState({productAll:temp});
+      //this.setState({productAll});
+      console.log('product all 2');  
+          console.log(JSON.stringify(this.state.productAll));
+
+   }
+
+
+
+  render() {
+
+      const listItems = this.state.obj.map((p, i) => 
+
+              <div  key={i} >
+                  <img width='200px' height='200px' src={p.image}/>
+                  <button onClick={this.shop.bind(this,p)}> shop</button>
+                  <button onClick={this.delete.bind(this,p)}> delete</button>
+              </div>
+
+          );
+
+
+          return(
+              <div>  
+                  <h1>This is the wishlist page</h1>
+                  <Link to="/" onClick={this.logOut}>
+                          Log out
+                  </Link>
+                  <div>
+                  <button onClick={this.goProductPage}> Product Page </button>
+                  <button onClick={this.test}> test </button>
+                  <div>
+
+                  {listItems}
+
+                  </div>
+
+
+                  </div>
+              </div>
+
+          )
+
+  }
 }
 
 export default Wishlist

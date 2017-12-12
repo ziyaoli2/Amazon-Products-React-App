@@ -33,26 +33,12 @@ const config = {
       {
         test: /\.css$/,
         loaders: ['style-loader', 'css-loader?-url', 'postcss-loader']
-      },
-      { test: /\.json$/, loader: 'json-loader' }
+      }
     ],
-  },
-  node: {
-    console: true,
-    global: true,
-    process: true,
-    Buffer: true,
-    __filename: "mock",
-    __dirname: "mock",
-    setImmediate: true,
-    fs: 'empty',
-    tls: 'empty',
-    net: 'empty',
   },
 
   // start Webpack in a watch mode, so Webpack will rebuild the bundle on changes
-  //watch: true
-
+  watch: true
 };
 
 module.exports = config;

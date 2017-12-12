@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "postinstall": "webpack",
-    "build": "webpack"
+    "start": "nodemon --use_strict index.js",
+    "dev": "webpack"
   },
   "author": "Simon Lu <shlu2@illinois.edu>",
   "license": "ISC",
@@ -14,9 +13,6 @@
     "amazon-product-api": "^0.4.4",
     "aws-product-api": "^1.2.5",
     "axios": "^0.17.1",
-    "babel": "^6.23.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
@@ -24,12 +20,11 @@
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "jsonwebtoken": "^8.1.0",
-    "mongoose": "^4.13.6",
-    "net": "^1.0.2",
+    "mongoose": "^4.13.2",
     "nuka-carousel": "^3.0.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "react": "^16.2.0",
+    "react": "^16.1.0",
     "react-bootstrap-carousel": "^2.2.0",
     "react-dom": "^16.1.0",
     "react-responsive-carousel": "^3.1.30",
@@ -38,7 +33,6 @@
     "react-tap-event-plugin": "^3.0.2",
     "semantic-ui-react": "^0.76.0",
     "slick-carousel": "^1.8.1",
-    "tls": "0.0.1",
     "validator": "^9.1.1"
   },
   "devDependencies": {
@@ -49,7 +43,6 @@
     "babel-preset-react": "^6.24.1",
     "copy-webpack-plugin": "^4.2.0",
     "css-loader": "^0.28.7",
-    "json-loader": "^0.5.7",
     "node-sass": "^4.6.1",
     "nodemon": "^1.12.1",
     "postcss-loader": "^2.0.8",
