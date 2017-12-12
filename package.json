@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "postinstall": "webpack",
-    "build": "webpack",
+    "build": "webpack"
   },
   "author": "Simon Lu <shlu2@illinois.edu>",
   "license": "ISC",
