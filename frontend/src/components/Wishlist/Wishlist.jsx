@@ -55,7 +55,7 @@ class Wishlist extends Component {
   }
       let id = String(item.id);
       // console.log(id+'delete from wishlist');
-      var url = "http://localhost:3000/api/DB/" + String(this.props.location.state.email) + '/' + id;
+      var url = "/api/DB/" + String(this.props.location.state.email) + '/' + id;
        axios
               .delete(url)
               .then(response => {
@@ -95,7 +95,7 @@ class Wishlist extends Component {
           let id = array[i];
 
           if(id[0]=='B'){
-              var url = "http://localhost:3000/itemLookup" + '/' + String(id);
+              var url = "/itemLookup" + '/' + String(id);
           axios
                   .get(url)
                   .then(response => {
@@ -107,7 +107,7 @@ class Wishlist extends Component {
                                   productAll[id] = {id: id, image: image, URL:URL};
                                   this.setState(productAll);
 
-                           console.log('product all 1');  
+                           console.log('product all 1');
                            console.log(this.state.productAll);
                            let dictionary = this.state.productAll;
                            var values = Object.keys(dictionary).map(function(key){
@@ -123,7 +123,7 @@ class Wishlist extends Component {
       }
       //this.setState({productAll:temp});
       //this.setState({productAll});
-      console.log('product all 2');  
+      console.log('product all 2');
           console.log(JSON.stringify(this.state.productAll));
 
    }
@@ -132,7 +132,7 @@ class Wishlist extends Component {
 
   render() {
 
-      const listItems = this.state.obj.map((p, i) => 
+      const listItems = this.state.obj.map((p, i) =>
 
               <div  key={i} >
                   <img width='200px' height='200px' src={p.image}/>
@@ -144,7 +144,7 @@ class Wishlist extends Component {
 
 
           return(
-              <div>  
+              <div>
                   <h1>This is the wishlist page</h1>
                   <Link to="/" onClick={this.logOut}>
                           Log out

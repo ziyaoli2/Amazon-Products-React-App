@@ -38,7 +38,7 @@ const config = {
   },
 
   // start Webpack in a watch mode, so Webpack will rebuild the bundle on changes
-  watch: true
+  //watch: true
 };
 
 module.exports = config;
