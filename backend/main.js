@@ -34,7 +34,10 @@ class TreeNode {
 
 const listOfCategories = [2350149011, 2617941011, 15684181, 165796011, 3760911, 283155,
 502394, 10963061, 2335753011, 468642, 541966, 16310211, 3760901,
-16310161,3367581,133140011,284507,599858,2625373011,2334092011,5174,11091801,1064954,2619533011,672123011,229534,228013,165793011];
+16310161,3367581,133140011,284507,599858,2625373011,2334092011,5174,11091801,1064954,2619533011,672123011,229534,228013,165793011,
+13896617011, 1292115011, 172456, 172504, 1292110011, 322215011, 1077068, 11091801, 10048700011, 172282, 2335752011,
+7147441011
+];
 
 class GetItem {
   constructor(lastCategoryIndex){
@@ -201,7 +204,7 @@ const errorItem = (itemGetter, callback) => {
 }
 
 const storeLastCategoryIndex = (email, categoryIndex) => {
-  let url = 'http://localhost:3000/api/DB/' + String(email) + '/' + String(categoryIndex);
+  let url = '/api/DB/' + String(email) + '/' + String(categoryIndex);
   axios.put(url).then(response => {
     console.log(response);
   });
