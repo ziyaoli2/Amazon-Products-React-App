@@ -38,7 +38,11 @@ const config = {
   },
 
   // start Webpack in a watch mode, so Webpack will rebuild the bundle on changes
+<<<<<<< HEAD
   watch: true
+=======
+  //watch: true
+>>>>>>> origin/master
 };
 
 module.exports = config;

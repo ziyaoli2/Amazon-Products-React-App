@@ -55,7 +55,11 @@ class Wishlist extends Component {
   }
       let id = String(item.id);
       // console.log(id+'delete from wishlist');
+<<<<<<< HEAD
       var url = "http://localhost:3000/api/DB/" + String(this.props.location.state.email) + '/' + id;
+=======
+      var url = "/api/DB/" + String(this.props.location.state.email) + '/' + id;
+>>>>>>> origin/master
        axios
               .delete(url)
               .then(response => {
@@ -95,7 +99,11 @@ class Wishlist extends Component {
           let id = array[i];
 
           if(id[0]=='B'){
+<<<<<<< HEAD
               var url = "http://localhost:3000/itemLookup" + '/' + String(id);
+=======
+              var url = "/itemLookup" + '/' + String(id);
+>>>>>>> origin/master
           axios
                   .get(url)
                   .then(response => {
@@ -107,7 +115,11 @@ class Wishlist extends Component {
                                   productAll[id] = {id: id, image: image, URL:URL};
                                   this.setState(productAll);
 
+<<<<<<< HEAD
                            console.log('product all 1');  
+=======
+                           console.log('product all 1');
+>>>>>>> origin/master
                            console.log(this.state.productAll);
                            let dictionary = this.state.productAll;
                            var values = Object.keys(dictionary).map(function(key){
@@ -123,7 +135,11 @@ class Wishlist extends Component {
       }
       //this.setState({productAll:temp});
       //this.setState({productAll});
+<<<<<<< HEAD
       console.log('product all 2');  
+=======
+      console.log('product all 2');
+>>>>>>> origin/master
           console.log(JSON.stringify(this.state.productAll));
 
    }
@@ -132,7 +148,11 @@ class Wishlist extends Component {
 
   render() {
 
+<<<<<<< HEAD
       const listItems = this.state.obj.map((p, i) => 
+=======
+      const listItems = this.state.obj.map((p, i) =>
+>>>>>>> origin/master
 
               <div  key={i} >
                   <img width='200px' height='200px' src={p.image}/>
@@ -144,6 +164,7 @@ class Wishlist extends Component {
 
 
           return(
+<<<<<<< HEAD
               <div> 
                   <div className = "navbar_wishlist">
                  <img src="https://ia601503.us.archive.org/18/items/neverknow_201712/neverknow.png"></img>
@@ -172,6 +193,24 @@ class Wishlist extends Component {
                  
                   
         
+=======
+              <div>
+                  <h1>This is the wishlist page</h1>
+                  <Link to="/" onClick={this.logOut}>
+                          Log out
+                  </Link>
+                  <div>
+                  <button onClick={this.goProductPage}> Product Page </button>
+                  <button onClick={this.test}> test </button>
+                  <div>
+
+                  {listItems}
+
+                  </div>
+
+
+                  </div>
+>>>>>>> origin/master
               </div>
 
           )

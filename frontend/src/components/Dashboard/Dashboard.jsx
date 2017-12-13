@@ -15,6 +15,7 @@ class Dashboard extends Component {
    constructor(props) {
        super(props);
        this.state = {
+<<<<<<< HEAD
 
            isLoggedIn: true,
            itemGetter: {},
@@ -82,8 +83,83 @@ class Dashboard extends Component {
 
      }
 
+=======
+
+           isLoggedIn: true,
+           itemGetter: {},
+           URL1:"",
+           URL2:"",
+           URL3:"",
+           URL4:"",
+           productName:"",
+           products:[]
+       }
+       //this.showURL = this.showURL.bind(this);
+       this.logOut = this.logOut.bind(this);
+       this.like = this.like.bind(this);
+       this.dislike = this.dislike.bind(this);
+       this.storeToWishlist = this.storeToWishlist.bind(this);
+       this.addToWishlist = this.addToWishlist.bind(this);
+       this.getFirstItem = this.getFirstItem.bind(this);
+       this.showimage = this.showimage.bind(this);
+       this.gotoWishlist = this.gotoWishlist.bind(this);
+       this.unique = this.unique.bind(this);
+   }
+>>>>>>> origin/master
+
+   showimage(){
+       console.log(this.state.image);
+   }
+   unique(){
+     console.log(this.state.products);
+   }
+
+<<<<<<< HEAD
+=======
+   getFirstItem() {
+     firstItem(this.state.itemGetter, (result) => {
+       console.log(result);
+     })
+   }
+
+   componentWillMount() {
+      // get the last category index from db
+      axios.get('/api/DB/'+this.props.location.state.email).then((response) => {
+        const lastCategoryIndex = response.data.data.lastCategoryIndex;
+        console.log('r = ', response);
+        let newItemGetter = new GetItem(lastCategoryIndex);
+        this.setState({
+          itemGetter: newItemGetter,
+        })
+        firstItem(newItemGetter, (result) => {
+          console.log('first = ',result);
+          let img = result[0].ImageSets[0].ImageSet[0].LargeImage[0].URL[0];
+          let img2 = result[0].ImageSets[0].ImageSet;
+          let url1 = img2[0].LargeImage[0].URL[0];
+          let url2 = img2[1].LargeImage[0].URL[0];
+          let url3 = img2[2].LargeImage[0].URL[0];
+          let url4 = img2[3].LargeImage[0].URL[0];
+          let name = result[0].ItemAttributes[0].Title[0].toString();
+        this.setState({
+
+            URL1:url1,
+            URL2:url2,
+            URL3:url3,
+            URL4:url4,
+            productName: name
+        });
+        console.log('this.state.image',this.state.image);
+        //console.log('medium image',JSON.stringify(result[0].ImageSets[0].ImageSet[0].MediumImage[1]));
+        //console.log('image array', JSON.stringify(resultarray));
+        console.log('product ID ',JSON.stringify(result[0].ASIN));
+        });
+      })
+
+     }
 
 
+
+>>>>>>> origin/master
    componentDidMount() {
        axios.get('/api/profile').then( (res) => {
             console.log(res);
@@ -95,14 +171,22 @@ class Dashboard extends Component {
                  isLoggedIn: false
              })
          })
+<<<<<<< HEAD
         let url = "http://localhost:3000/api/DB/" + String(this.props.location.state.email);
+=======
+        let url = "/api/DB/" + String(this.props.location.state.email);
+>>>>>>> origin/master
      axios
                .get(url)
                .then(response => {
                        console.log(JSON.stringify(response.data.data));
                                let array = response.data.data;
                                let unique = [...new Set(array)];
+<<<<<<< HEAD
                                
+=======
+
+>>>>>>> origin/master
 
                                for (var i= 0; i< unique.length; i++){
 
@@ -116,7 +200,11 @@ class Dashboard extends Component {
                                console.log('trimmed products in dashboard');
                                console.log(this.state.products);
 
+<<<<<<< HEAD
                });     
+=======
+               });
+>>>>>>> origin/master
    }
 
 
@@ -276,7 +364,11 @@ class Dashboard extends Component {
                                console.log('trimmed products in dashboard');
                                console.log(this.state.products);
 
+<<<<<<< HEAD
                });     
+=======
+               });
+>>>>>>> origin/master
 
       this.like();
 
@@ -310,6 +402,7 @@ class Dashboard extends Component {
            //const ele = <img width='200px' height='200px' src={this.state.image}/>;
            //const bb = url(this.state.image);
            return(
+<<<<<<< HEAD
            	<div>
            		<div className = "navbar">
            			 <img src="https://ia601503.us.archive.org/18/items/neverknow_201712/neverknow.png"></img>
@@ -324,6 +417,18 @@ class Dashboard extends Component {
                        <button onClick={this.addToWishlist}> Add to wishlist </button>
                        
                        <h2>{this.state.productName}</h2>
+=======
+               <div className="Dashboard">
+                   <Card>
+                       <h1>This is the product page</h1>
+
+                       <button onClick={this.gotoWishlist}> Wishlist </button>
+
+                       <Link to="/" onClick={this.logOut}>
+                           Log out
+                       </Link>
+                       <h1>{this.state.productName}</h1>
+>>>>>>> origin/master
 
                        <Carousel>
                              <img width='200px' height='200px' src={this.state.URL1}/>
@@ -335,10 +440,15 @@ class Dashboard extends Component {
                    </Card>
                        <button onClick={this.like}> like </button>
                        <button onClick={this.dislike}> dislike </button>
+<<<<<<< HEAD
 
               </div>
               <div className="footer">
             <p className="footer_text">Robert J Paul &emsp; Ziyao Li &emsp; Edbert Linardi &emsp; Bo Zheng &emsp; Hari Cheruvu</p></div>
+=======
+                       <button onClick={this.addToWishlist}> Add to wishlist </button>
+                       <button onClick={this.unique}> test unique </button>
+>>>>>>> origin/master
               </div>
            )
        } else {
