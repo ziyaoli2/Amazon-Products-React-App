@@ -1,9 +1,9 @@
 const similarItems = require('aws-product-api');
 const browseTopSellers = require('amazon-product-api');
 
-const awsId = 'AKIAIL6MEBROY6QG653Q';
-const awsSecretKey = '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';
-const awsTag = 'cs498rkfp-20';
+const awsId = 'AKIAI7WZ3PQRWU4HKDXQ';
+const awsSecretKey = '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';
+const awsTag = 'cs498rkfp0d-20';
 
 const similarItemsClient = new similarItems(awsSecretKey, awsId, awsTag);
 const findSimilarItems = (itemId, callback) => {
@@ -25,7 +25,7 @@ const findSimilarItems = (itemId, callback) => {
         } else {
           findSimilarItems('B00O4OR4GQ', callback);
         }
-        
+
       }
     });
 }
