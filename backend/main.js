@@ -51,6 +51,9 @@ class GetItem {
   getFirstItem(callback) {
     this.setNewRoot(callback);
     this.categoryIndex += 1;
+    if(this.categoryIndex > listOfCategories.length) {
+      this.categoryIndex = 0;
+    }
   }
 
   selectAfterDislike(callback) {
@@ -112,6 +115,9 @@ class GetItem {
       if(this.numOfDislikes > 3) {
         this.numOfDislikes = 0;
         this.categoryIndex += 1;
+        if(this.categoryIndex > listOfCategories.length) {
+          this.categoryIndex = 0;
+        }
         this.setNewRoot(callback);
       } else {
         this.selectAfterDislike(callback);
@@ -128,6 +134,9 @@ class GetItem {
     //wishlist
     if(selection == 2) {
       this.categoryIndex += 1;
+      if(this.categoryIndex > listOfCategories.length) {
+        this.categoryIndex = 0;
+      }
       this.setNewRoot(callback);
       this.numOfDislikes = 0;
     }
