@@ -138,11 +138,11 @@ class Dashboard extends Component {
                               let unique = [...new Set(array)];
 
 
-                              for (var i= 0; i< unique.length; i++){
+                              // for (var i= 0; i< unique.length; i++){
 
-                              console.log(unique[i]);
-                              console.log(unique[i][0]);
-                              }
+                              // console.log(unique[i]);
+                              // console.log(unique[i][0]);
+                              // }
 
                               this.setState({
                                   products: unique
@@ -299,11 +299,11 @@ class Dashboard extends Component {
 
                               // }
 
-                              for (var i= 0; i< unique.length; i++){
+                              // for (var i= 0; i< unique.length; i++){
 
-                              console.log(unique[i]);
-                              console.log(unique[i][0]);
-                              }
+                              // console.log(unique[i]);
+                              // console.log(unique[i][0]);
+                              // }
 
                               this.setState({
                                   products: unique
@@ -334,11 +334,11 @@ class Dashboard extends Component {
 
                               // }
 
-                              for (var i= 0; i< unique.length; i++){
+                              // for (var i= 0; i< unique.length; i++){
 
-                              console.log(unique[i]);
-                              console.log(unique[i][0]);
-                              }
+                              // console.log(unique[i]);
+                              // console.log(unique[i][0]);
+                              // }
 
                               this.setState({
                                   products: unique

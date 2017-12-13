@@ -15,12 +15,17 @@ const findSimilarItems = (itemId, callback) => {
       if(err){
         console.log(err);
       }else{
-        let result = results[0]['Item'];
-        let resultASINs = [];
-        for(let i=0;i<result.length;i++){
-          resultASINs.push(result[i]['ASIN'][0]);
+        if(typeof results[0]['Item'] !== 'undefined') {
+          let result = results[0]['Item'];
+          let resultASINs = [];
+          for(let i=0;i<result.length;i++){
+            resultASINs.push(result[i]['ASIN'][0]);
+          }
+          callback(resultASINs);
+        } else {
+          findSimilarItems('B00O4OR4GQ', callback);
         }
-        callback(resultASINs);
+        
       }
     });
 }
