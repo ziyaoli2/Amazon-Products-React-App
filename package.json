@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "./node_modules/.bin/forever --spinSleepTime 5000 index.js",
     "build": "webpack",
     "postinstall": "webpack",
     "dev": "webpack"
@@ -21,6 +21,7 @@
     "cookie-session": "^2.0.0-beta.3",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
+    "forever": "^0.15.3",
     "jsonwebtoken": "^8.1.0",
     "mongoose": "^4.13.2",
     "nuka-carousel": "^3.0.0",
