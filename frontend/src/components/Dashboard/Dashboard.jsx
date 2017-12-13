@@ -127,7 +127,7 @@ class Dashboard extends Component {
         });
       })
 
-       let url = "http://localhost:3000/api/DB/" + String(this.props.location.state.email);
+       let url = "/api/DB/" + String(this.props.location.state.email);
     axios
               .get(url)
               .then(response => {
@@ -264,7 +264,7 @@ class Dashboard extends Component {
 
   storeToWishlist(email, id) {
     console.log('store to wishlist');
-    var url = "http://localhost:3000/api/DB/" + String(email) + '/' + String(id);
+    var url = "/api/DB/" + String(email) + '/' + String(id);
     //  "/api/DB/
     axios
               .post(url)
@@ -282,7 +282,7 @@ class Dashboard extends Component {
        console.log(result);
      });
     console.log('addToWishlist button clicked');
-    let url = "http://localhost:3000/api/DB/" + String(this.props.location.state.email);
+    let url = "/api/DB/" + String(this.props.location.state.email);
     axios
               .get(url)
               .then(response => {
@@ -317,7 +317,7 @@ class Dashboard extends Component {
   }
   gotoWishlist(){
        //e.preventDefault();
-       let url = "http://localhost:3000/api/DB/" + String(this.props.location.state.email);
+       let url = "/api/DB/" + String(this.props.location.state.email);
     axios
               .get(url)
               .then(response => {

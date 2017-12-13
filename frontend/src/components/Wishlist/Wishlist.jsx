@@ -54,7 +54,7 @@ class Wishlist extends Component {
  }
      let id = String(item.id);
      // console.log(id+'delete from wishlist');
-     var url = "http://localhost:3000/api/DB/" + String(this.props.location.state.email) + '/' + id;
+     var url = "/api/DB/" + String(this.props.location.state.email) + '/' + id;
       axios
              .delete(url)
              .then(response => {
@@ -94,7 +94,7 @@ class Wishlist extends Component {
          let id = array[i];
 
          if(id[0]=='B'){
-             var url = "http://localhost:3000/itemLookup" + '/' + String(id);
+             var url = "/itemLookup" + '/' + String(id);
          axios
                  .get(url)
                  .then(response => {
