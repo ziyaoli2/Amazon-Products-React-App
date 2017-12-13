@@ -89,7 +89,7 @@ class Register extends Component {
                             <br/>
                             <Input label="&emsp;Email&emsp;" onChange={this.onChangeEmail} />
                             <br/><br/>
-                            <Input label="Password" onChange={this.onChangePassword} />
+                            <Input label="Password" type="password" onChange={this.onChangePassword} />
                             <br/><br/>
                             <p>{this.state.message}</p>
                             <Input id = "submit" type="submit" value = "&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Sign Up&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;"/>

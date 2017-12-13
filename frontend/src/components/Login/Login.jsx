@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Button, Input, Card } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
-
 import styles from './styles.scss'
 
 class Login extends Component {
@@ -93,7 +92,7 @@ this.props.history.push({
                         <br/>
                         <Input label="&emsp;Email&emsp;" onChange={this.onChangeEmail} />
                         <br/><br/>
-                        <Input label="Password" onChange={this.onChangePassword} />
+                        <Input label="Password" type="password" onChange={this.onChangePassword} />
                         <br/><br/>
 
                         <p>{this.state.message}</p>

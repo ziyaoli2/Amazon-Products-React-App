@@ -1,14 +1,13 @@
 'use strict';
 
 import React, { Component } from 'react'
-import { Button, Card } from 'semantic-ui-react'
+import { Button, Card, Icon, Label, Header } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { GetItem, firstItem, likeItem, dislikeItem, wishListItem, storeLastCategoryIndex } from '../../../../backend/main.js'
 import axios from 'axios'
 
 import styles from './styles.scss'
 import Carousel from 'nuka-carousel'
-
 
 class Dashboard extends Component {
 
@@ -151,8 +150,8 @@ class Dashboard extends Component {
                               console.log('trimmed products in dashboard');
                               console.log(this.state.products);
 
-              });     
-  } 
+              });
+  }
 
 
   logOut() {
@@ -311,7 +310,7 @@ class Dashboard extends Component {
                               console.log('trimmed products in dashboard');
                               console.log(this.state.products);
 
-              });     
+              });
 
      this.like();
 
@@ -360,7 +359,7 @@ class Dashboard extends Component {
 
                                                        });
 
-              });     
+              });
 
 
 
@@ -375,16 +374,20 @@ class Dashboard extends Component {
           //const ele = <img width='200px' height='200px' src={this.state.image}/>;
           //const bb = url(this.state.image);
           return(
+           <div>
+             <div className = "navbar">
+                <img src="https://ia601503.us.archive.org/18/items/neverknow_201712/neverknow.png"></img>
+
+                    <Button as = {Link} content = 'Logout' icon = 'sign out' id = "logout" to = "/" onClick={this.logOut}></Button>
+                <Button content = 'Wishlist' icon = 'cart' id = "wishlist" onClick={this.gotoWishlist}></Button>
+             </div>
               <div className="Dashboard">
-                  <Card>
-                      <h1>This is the product page</h1>
+                  <Card className = "panel" color = "grey">
 
-                      <button onClick={this.gotoWishlist}> Wishlist </button>
+                      <Button size = "massive" color = "grey" icon = "add to cart" onClick={this.addToWishlist}></Button>
 
-                      <Link to="/" onClick={this.logOut}>
-                          Log out
-                      </Link>
-                      <h1>{this.state.productName}</h1>
+
+                      <Label size = "large">{this.state.productName}</Label>
 
                       <Carousel>
                             <img width='200px' height='200px' src={this.state.URL1}/>
@@ -394,10 +397,12 @@ class Dashboard extends Component {
                       </Carousel>
 
                   </Card>
-                      <button onClick={this.like}> like </button>
-                      <button onClick={this.dislike}> dislike </button>
-                      <button onClick={this.addToWishlist}> Add to wishlist </button>
-                      <button onClick={this.unique}> test unique </button>
+                      <Button size = "massive" color = "grey" icon = "thumbs up" onClick={this.like}></Button>
+                      <Button size = "massive" color = "grey" icon = "thumbs down" onClick={this.dislike}></Button>
+
+             </div>
+             <div className="footer">
+           <p className="footer_text">Robert J Paul &emsp; Ziyao Li &emsp; Edbert Linardi &emsp; Bo Zheng &emsp; Hari Cheruvu</p></div>
              </div>
           )
       } else {

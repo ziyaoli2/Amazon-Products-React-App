@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import { Button, Card } from 'semantic-ui-react'
+import { Button, Card, Segment, Grid, Icon } from 'semantic-ui-react'
 import { Link, BrowserRouter } from 'react-router-dom'
 import axios from 'axios'
 import { Router} from 'react-router';
-
 
 import styles from './styles.scss'
 
@@ -107,7 +106,7 @@ class Wishlist extends Component {
                                  productAll[id] = {id: id, image: image, URL:URL};
                                  this.setState(productAll);
 
-                          console.log('product all 1');  
+                          console.log('product all 1');
                           console.log(this.state.productAll);
                           let dictionary = this.state.productAll;
                           var values = Object.keys(dictionary).map(function(key){
@@ -123,48 +122,67 @@ class Wishlist extends Component {
      }
      //this.setState({productAll:temp});
      //this.setState({productAll});
-     console.log('product all 2');  
+     console.log('product all 2');
          console.log(JSON.stringify(this.state.productAll));
 
   }
 
 
 
- render() {
+  render() {
 
-     const listItems = this.state.obj.map((p, i) => 
+      const listItems = this.state.obj.map((p, i) =>
 
-             <div  key={i} >
-                 <img width='200px' height='200px' src={p.image}/>
-                 <button onClick={this.shop.bind(this,p)}> shop</button>
-                 <button onClick={this.delete.bind(this,p)}> delete</button>
-             </div>
+              <div id = "product" key={i} >
 
-         );
-
-
-         return(
-             <div>  
-                 <h1>This is the wishlist page</h1>
-                 <Link to="/" onClick={this.logOut}>
-                         Log out
-                 </Link>
-                 <div>
-                 <button onClick={this.goProductPage}> Product Page </button>
-                 <button onClick={this.test}> test </button>
-                 <div>
-
-                 {listItems}
-
-                 </div>
+                  <img width='200px' height='200px' src={p.image}/>
+                  <br/>
+                  <Button size = "big" icon = 'amazon' color = "grey" id = "link" onClick={this.shop.bind(this,p)}></Button>
+                  <Button size = "big" icon = 'trash' color = "grey" id = "trash" onClick={this.delete.bind(this,p)}></Button>
 
 
-                 </div>
-             </div>
 
-         )
 
- }
+              </div>
+
+          );
+
+
+          return(
+              <div>
+                  <div className = "navbar_wishlist">
+                  <img src="https://ia601503.us.archive.org/18/items/neverknow_201712/neverknow.png"></img>
+                  <Button as = {Link} content = 'Logout' icon = 'sign out' id = "logout" to="/" onClick={this.logOut}></Button>
+                  <Button content = 'Home' icon = 'home' id = "productpage" onClick={this.goProductPage}></Button>
+
+              </div>
+                  <Segment inverted>
+                  <h1>Wishlist</h1>
+                  </Segment>
+
+
+
+
+                  <Segment padded= "very" textAlign = 'center'>
+                  <Grid centered columns = {5}>
+                    {listItems}
+                  </Grid>
+
+
+                  </Segment>
+
+                  <div className="footer_wishlist">
+
+                  </div>
+
+
+
+
+              </div>
+
+          )
+
+  }
 }
 
 export default Wishlist
